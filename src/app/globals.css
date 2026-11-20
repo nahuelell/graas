@@ -1,0 +1,115 @@
+@import "tailwindcss";
+
+/* ── Identidad Graas ─────────────────────────────────────────── */
+@theme {
+  --color-ink: #0d0d0f;
+  --color-ink-2: #0a0a0b;
+  --color-panel: #17171a;
+  --color-panel-2: #1f1f23;
+  --color-line: #2c2c31;
+  --color-brand: #ffc21a;
+  --color-brand-dark: #d9a400;
+  --color-muted: #a3a3ab;
+  --color-dim: #6b6b73;
+  --color-wa: #25d366;
+
+  --font-display: var(--font-anton), "Impact", sans-serif;
+  --font-sans: var(--font-montserrat), system-ui, sans-serif;
+
+  --animate-marquee: marquee 38s linear infinite;
+  --animate-kenburns: kenburns 22s ease-in-out infinite alternate;
+  --animate-ring: ring 2.2s cubic-bezier(0.2, 0.6, 0.3, 1) infinite;
+  --animate-scroll-dot: scrolldot 1.8s ease-in-out infinite;
+
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  @keyframes kenburns {
+    from { transform: scale(1.04) translate3d(0, 0, 0); }
+    to { transform: scale(1.16) translate3d(-2%, -1.5%, 0); }
+  }
+  @keyframes ring {
+    0% { transform: scale(1); opacity: 0.55; }
+    100% { transform: scale(1.9); opacity: 0; }
+  }
+  @keyframes scrolldot {
+    0%, 100% { transform: translateY(0); opacity: 1; }
+    60% { transform: translateY(10px); opacity: 0.2; }
+  }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-tap-highlight-color: transparent;
+  }
+  body {
+    @apply bg-ink font-sans text-white antialiased;
+  }
+  ::selection {
+    @apply bg-brand text-ink;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-brand);
+    outline-offset: 3px;
+  }
+}
+
+@utility container-x {
+  @apply mx-auto w-full max-w-7xl px-5 sm:px-8;
+}
+@utility kicker {
+  @apply font-sans text-xs font-bold tracking-[0.22em] text-brand uppercase;
+}
+@utility h-display {
+  @apply font-display leading-[0.95] tracking-tight uppercase;
+}
+@utility btn {
+  @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-bold tracking-wide uppercase transition duration-200 active:scale-[0.97];
+}
+@utility btn-brand {
+  @apply btn bg-brand text-ink hover:bg-white;
+}
+@utility btn-ghost {
+  @apply btn border border-white/40 text-white hover:border-brand hover:text-brand;
+}
+@utility btn-wa {
+  @apply btn bg-wa text-white hover:brightness-110;
+}
+@utility card {
+  @apply rounded-2xl border border-line bg-panel;
+}
+@utility grain {
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.08;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+}
+@utility stripes {
+  background-image: repeating-linear-gradient(-45deg, var(--color-brand) 0 14px, var(--color-ink) 14px 28px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* La intro no se muestra si ya se vio en la sesión o si el usuario prefiere menos movimiento */
+[data-intro="seen"] #intro {
+  display: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  #intro {
+    display: none;
+  }
+}
