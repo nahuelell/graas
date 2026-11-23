@@ -23,6 +23,7 @@ export async function getSettings(): Promise<Settings> {
   if (!isSupabaseConfigured) return demoSettings;
   const { data } = await createPublicClient().from("settings").select("*").eq("id", 1).maybeSingle();
   const merged = { ...demoSettings, ...(data ?? {}) } as Settings;
+  if (!Array.isArray(merged.hero_images)) merged.hero_images = [];
   return merged;
 }
 

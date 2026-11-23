@@ -204,9 +204,8 @@ export async function setUsadoStatus(id: string, status: string) {
 export async function saveSettings(_prev: FormState, f: FormData): Promise<FormState> {
   await requireAdmin();
   const supabase = await createSessionClient();
-  const { data: before } = await supabase.from("settings").select("hero_video, hero_image").eq("id", 1).maybeSingle();
-  const heroVideo = cleanMedia(json<MediaAsset[]>(f, "hero_video", []))[0] ?? null;
-  const heroImage = cleanMedia(json<MediaAsset[]>(f, "hero_image", []))[0] ?? null;
+  const { data: before } = await supabase.from("settings").select("hero_images").eq("id", 1).maybeSingle();
+  const heroImages = cleanMedia(json<MediaAsset[]>(f, "hero_images", [])).slice(0, 10);
   const payload = {
     id: 1,
     company_name: str(f, "company_name") || "Carrocerías Graas",
@@ -220,16 +219,15 @@ export async function saveSettings(_prev: FormState, f: FormData): Promise<FormS
     instagram: strOrNull(f, "instagram"),
     facebook: strOrNull(f, "facebook"),
     maps_query: strOrNull(f, "maps_query"),
+    hero_title: strOrNull(f, "hero_title"),
     hero_kicker: strOrNull(f, "hero_kicker"),
     hero_subtitle: strOrNull(f, "hero_subtitle"),
     about: strOrNull(f, "about"),
-    hero_video: heroVideo,
-    hero_image: heroImage,
+    hero_images: heroImages,
   };
   const { error } = await supabase.from("settings").upsert(payload);
   if (error) return { ok: false, message: error.message };
-  const old = [before?.hero_video, before?.hero_image].filter(Boolean) as MediaAsset[];
-  await destroyAssets(removedAssets(old, [heroVideo, heroImage].filter(Boolean) as MediaAsset[]));
+  await destroyAssets(removedAssets((before?.hero_images as MediaAsset[]) ?? [], heroImages));
   updateTag(TAGS.settings);
   return { ok: true, message: "Ajustes guardados. Ya se ven en la web." };
 }

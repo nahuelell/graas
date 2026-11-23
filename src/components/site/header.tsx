@@ -10,8 +10,8 @@ import { Logo } from "./logo";
 import { WhatsAppIcon } from "./icons";
 
 const NAV = [
-  { href: "/termicos", label: "Térmicos" },
   { href: "/carrocerias", label: "Carrocerías" },
+  { href: "/termicos", label: "Térmicos" },
   { href: "/#servicios", label: "Servicios" },
   { href: "/trabajos", label: "Trabajos" },
   { href: "/usados", label: "Usados" },

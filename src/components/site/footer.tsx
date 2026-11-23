@@ -12,7 +12,7 @@ export function Footer({ settings }: { settings: Settings }) {
         <div>
           <Logo />
           <p className="mt-5 max-w-sm text-sm leading-relaxed text-muted">
-            Especialistas en furgones térmicos. Fábrica de carrocerías desde 1985 en el Parque Industrial de Crespo, Entre Ríos.
+            Fábrica de carrocerías y furgones térmicos desde 1985 en el Parque Industrial de Crespo, Entre Ríos.
           </p>
           <div className="mt-6 flex gap-3">
             {settings.instagram && (

@@ -4,7 +4,7 @@
 --  Las imágenes se suben después desde el panel (/admin).
 -- ============================================================================
 
-insert into public.settings (id, company_name, legal_name, phone, whatsapp, email, address, city, hours, instagram, facebook, maps_query, hero_kicker, hero_subtitle, about)
+insert into public.settings (id, company_name, legal_name, phone, whatsapp, email, address, city, hours, instagram, facebook, maps_query, hero_title, hero_kicker, hero_subtitle, about)
 values (
   1,
   'Carrocerías Graas',
@@ -18,9 +18,10 @@ values (
   'https://www.instagram.com/carrocerias.graas/',
   'https://www.facebook.com/carroceriasgraas/',
   'Carrocerías Graas, Santiago Eichhorn 235, Crespo, Entre Ríos',
-  'Carrocerías térmicas · Crespo, Entre Ríos',
-  'Diseñamos y fabricamos furgones isotérmicos para alimentos, lácteos y carga refrigerada. A medida de tu chasis, homologados y con service en nuestro taller.',
-  'Somos una empresa familiar que desde 1985 trabaja en el sector metalúrgico, fabricando carrocerías para camiones y acoplados, con especialización en furgones térmicos. Nacimos en Crespo como "Metalúrgica Santa María" y desde 1994 estamos en el Parque Industrial, sobre la Ruta Nacional 12.'
+  E'Carrocerías\nhechas para\ntrabajar.',
+  'Fábrica en Crespo · Entre Ríos · Desde 1985',
+  'Furgones térmicos y carrocerías metálicas a medida de tu camión. Diseño, fabricación, homologación y service en un solo lugar.',
+  'Somos una empresa familiar que desde 1985 trabaja en el sector metalúrgico, fabricando carrocerías para camiones, acoplados y furgones térmicos. Nacimos en Crespo como "Metalúrgica Santa María" y desde 1994 estamos en el Parque Industrial, sobre la Ruta Nacional 12.'
 )
 on conflict (id) do nothing;
 

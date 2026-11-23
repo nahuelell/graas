@@ -160,3 +160,30 @@ export function ThermalCta({ whatsapp }: { whatsapp: string }) {
     </section>
   );
 }
+
+/** Banda compacta para el inicio que lleva a /termicos. */
+export function ThermalBand({ whatsapp }: { whatsapp: string }) {
+  return (
+    <section className="relative overflow-hidden border-y border-line bg-ink-2 py-16">
+      <div className="pointer-events-none absolute -left-20 top-1/2 h-72 w-72 -translate-y-1/2 rounded-full bg-frost/15 blur-[100px]" />
+      <Snowflake className="pointer-events-none absolute -right-10 top-1/2 size-64 -translate-y-1/2 text-frost/10" strokeWidth={1} />
+      <div className="container-x relative flex flex-wrap items-center justify-between gap-8">
+        <div className="max-w-2xl">
+          <p className="text-xs font-bold tracking-[0.22em] text-frost uppercase">Carrocerías térmicas</p>
+          <h2 className="h-display mt-3 text-4xl sm:text-6xl">
+            ¿Necesitás un <span className="text-frost">furgón térmico</span>?
+          </h2>
+          <p className="mt-3 text-muted">Furgones isotérmicos a medida para lácteos, carnes, alimentos y reparto refrigerado.</p>
+        </div>
+        <div className="flex flex-wrap gap-3">
+          <Link href="/termicos" className="btn-brand group">
+            Conocé los térmicos <ArrowRight className="size-4 transition group-hover:translate-x-1" />
+          </Link>
+          <a href={whatsapp} target="_blank" rel="noopener" className="btn-ghost">
+            <WhatsAppIcon className="size-4" /> Cotizar
+          </a>
+        </div>
+      </div>
+    </section>
+  );
+}

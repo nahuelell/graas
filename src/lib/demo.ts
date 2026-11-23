@@ -29,13 +29,14 @@ export const demoSettings: Settings = {
   instagram: "https://www.instagram.com/carrocerias.graas/",
   facebook: "https://www.facebook.com/carroceriasgraas/",
   maps_query: "Carrocerías Graas, Santiago Eichhorn 235, Crespo, Entre Ríos",
-  hero_kicker: "Carrocerías térmicas · Crespo, Entre Ríos",
+  hero_title: "Carrocerías\nhechas para\ntrabajar.",
+  hero_kicker: "Fábrica en Crespo · Entre Ríos · Desde 1985",
   hero_subtitle:
-    "Diseñamos y fabricamos furgones isotérmicos para alimentos, lácteos y carga refrigerada. A medida de tu chasis, homologados y con service en nuestro taller.",
-  hero_video: null,
-  hero_image: null,
+    "Furgones térmicos y carrocerías metálicas a medida de tu camión. Diseño, fabricación, homologación y service en un solo lugar.",
+  // Fotos de portada (máx. 10). La primera es la que aparece siempre al entrar: idealmente un furgón térmico.
+  hero_images: [img("truck", "Camión con carrocería Graas"), img("taller", "Soldadura en el taller de Graas")],
   about:
-    'Somos una empresa familiar que desde 1985 trabaja en el sector metalúrgico, fabricando carrocerías para camiones y acoplados, con especialización en furgones térmicos. Nacimos en Crespo como "Metalúrgica Santa María" y desde 1994 estamos en el Parque Industrial, sobre la Ruta Nacional 12.',
+    'Somos una empresa familiar que desde 1985 trabaja en el sector metalúrgico, fabricando carrocerías para camiones, acoplados y furgones térmicos. Nacimos en Crespo como "Metalúrgica Santa María" y desde 1994 estamos en el Parque Industrial, sobre la Ruta Nacional 12.',
   updated_at: now,
 };
 

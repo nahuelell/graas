@@ -78,8 +78,8 @@ export type Settings = {
   maps_query: string | null;
   hero_kicker: string | null;
   hero_subtitle: string | null;
-  hero_video: MediaAsset | null;
-  hero_image: MediaAsset | null;
+  hero_title: string | null;
+  hero_images: MediaAsset[];
   about: string | null;
   updated_at: string;
 };

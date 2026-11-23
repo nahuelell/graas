@@ -81,7 +81,7 @@ export function Intro() {
           <Image src="/brand/logo-graas.png" alt="" width={64} height={64} className="rounded-full" priority />
           <span className="flex flex-col leading-none">
             <span className="font-display text-5xl tracking-wider text-white">GRAAS</span>
-            <span className="mt-1 text-[0.65rem] font-bold tracking-[0.4em] text-brand">CARROCERÍAS TÉRMICAS</span>
+            <span className="mt-1 text-[0.65rem] font-bold tracking-[0.4em] text-brand">CARROCERÍAS</span>
           </span>
         </motion.div>
         <div className="mt-8 h-px w-44 overflow-hidden bg-white/15">

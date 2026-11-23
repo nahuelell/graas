@@ -104,11 +104,15 @@ create table if not exists public.settings (
   maps_query      text,
   hero_kicker     text,
   hero_subtitle   text,
-  hero_video      jsonb,          -- { public_id, url, resource_type: "video" }
-  hero_image      jsonb,
+  hero_title      text,           -- título grande de la portada (una línea por renglón)
+  hero_images     jsonb not null default '[]'::jsonb,  -- carrusel de portada, máx. 10 (la primera sale siempre primera)
   about           text,
   updated_at      timestamptz not null default now()
 );
+
+-- Para bases creadas con una versión anterior del esquema
+alter table public.settings add column if not exists hero_title text;
+alter table public.settings add column if not exists hero_images jsonb not null default '[]'::jsonb;
 
 -- ── Consultas (formulario de contacto) ─────────────────────────────────────
 create table if not exists public.leads (

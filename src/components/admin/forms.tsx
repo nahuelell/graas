@@ -166,14 +166,14 @@ export function SettingsForm({ settings }: { settings: Settings | null }) {
   return (
     <form action={action} className="space-y-6">
       <div className="grid gap-6 xl:grid-cols-2">
-        <Section title="Portada (hero)" description="El video se reproduce de fondo, sin sonido. Si no hay video, se usa la imagen.">
-          <Field label="Video de fondo" hint="MP4 horizontal, 10 a 20 segundos, idealmente menos de 30 MB.">
-            <ImageUploader name="hero_video" folder="sitio" multiple={false} accept="video/*" label="Subir video" initial={s?.hero_video ? [s.hero_video] : []} />
+        <Section title="Portada" description="Carrusel de fotos de fondo y textos principales del inicio.">
+          <Field label="Fotos de portada (máx. 10)" hint="La primera es la que aparece siempre al entrar: poné un furgón térmico. Después van pasando las demás. Fotos horizontales, de buena calidad.">
+            <ImageUploader name="hero_images" folder="sitio" max={10} label="Subir fotos" initial={s?.hero_images ?? []} />
           </Field>
-          <Field label="Imagen de fondo">
-            <ImageUploader name="hero_image" folder="sitio" multiple={false} label="Subir imagen" initial={s?.hero_image ? [s.hero_image] : []} />
+          <Field label="Título grande" hint="Un renglón por línea. El último renglón se pinta en amarillo.">
+            <textarea name="hero_title" rows={3} defaultValue={s?.hero_title ?? "Carrocerías\nhechas para\ntrabajar."} className={inputCls + " font-display text-lg uppercase"} />
           </Field>
-          <Field label="Texto superior"><input name="hero_kicker" defaultValue={s?.hero_kicker ?? ""} className={inputCls} /></Field>
+          <Field label="Texto superior (chico)"><input name="hero_kicker" defaultValue={s?.hero_kicker ?? ""} className={inputCls} /></Field>
           <Field label="Bajada"><textarea name="hero_subtitle" rows={3} defaultValue={s?.hero_subtitle ?? ""} className={inputCls} /></Field>
         </Section>
         <div className="space-y-6">

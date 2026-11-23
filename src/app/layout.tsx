@@ -19,11 +19,11 @@ const montserrat = localFont({
 export const metadata: Metadata = {
   metadataBase: new URL(config.siteUrl),
   title: {
-    default: "Carrocerías Graas | Furgones térmicos a medida en Entre Ríos",
+    default: "Carrocerías Graas | Carrocerías y furgones térmicos en Crespo, Entre Ríos",
     template: "%s | Carrocerías Graas",
   },
   description:
-    "Fábrica de carrocerías desde 1985 en el Parque Industrial de Crespo, Entre Ríos. Especialistas en furgones térmicos e isotérmicos a medida. También baranda volcable, sider, usados y reparaciones.",
+    "Fábrica de carrocerías desde 1985 en el Parque Industrial de Crespo, Entre Ríos. Furgones térmicos, baranda volcable, sider y más, a medida de tu chasis. Usados, reparaciones y service.",
   keywords: [
     "carrocerías Entre Ríos",
     "carrocerías Crespo",

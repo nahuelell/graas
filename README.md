@@ -1,13 +1,13 @@
 # Carrocerías Graas · Sitio web + Panel de administración
 
-Sitio de **Carrocerías Graas** (Hugo Graas e Hijos S.R.L., Crespo, Entre Ríos), enfocado en **furgones térmicos**, con panel para administrar usados, trabajos entregados, catálogo y datos del sitio.
+Sitio de **Carrocerías Graas** (Hugo Graas e Hijos S.R.L., Crespo, Entre Ríos), con línea destacada de **furgones térmicos** (`/termicos`) y panel para administrar usados, trabajos entregados, catálogo y datos del sitio.
 
 Desarrollado por **Lell Digital** junto a **Communitypym**.
 
 | Pieza | Tecnología |
 |---|---|
 | Framework | Next.js 16 (App Router, Cache Components) + React 19 + TypeScript |
-| Estilos y animación | Tailwind CSS 4 + Motion (intro, ilustración animada del furgón térmico, revelados al scroll) |
+| Estilos y animación | Tailwind CSS 4 + Motion (intro, carrusel de portada, revelados al scroll) |
 | Base de datos y login | Supabase (Postgres + Auth + Row Level Security) |
 | Imágenes y video | Cloudinary (subida firmada directa desde el panel, formato y calidad automáticos) |
 | Hosting recomendado | Vercel |
@@ -111,7 +111,7 @@ A hacer al publicar:
 | **Trabajos entregados** | Galería de unidades entregadas |
 | **Catálogo** | Modelos de carrocerías nuevas con ficha propia y SEO |
 | **Consultas** | Mensajes del formulario de contacto, con botón para responder por WhatsApp |
-| **Ajustes del sitio** | Video e imagen de portada, textos del inicio, teléfonos, WhatsApp, email, dirección, horario, redes y texto "Nosotros" |
+| **Ajustes del sitio** | Fotos de portada (carrusel, máx. 10), título grande y textos del inicio, teléfonos, WhatsApp, email, dirección, horario, redes y texto "Nosotros" |
 
 Detalles:
 - Las fotos pesadas se achican en el navegador antes de subir (rápido desde el celular).
@@ -130,7 +130,7 @@ src/
     api/cloudinary/    → firma de subidas
     sitemap.ts, robots.ts
   components/
-    site/              → intro, hero, ilustración del furgón térmico, secciones de térmicos, tarjetas, galería, formulario
+    site/              → intro, portada con carrusel, secciones de térmicos, tarjetas, galería, formulario
     admin/             → formularios, subidor de imágenes, listas
   lib/
     data.ts            → lecturas públicas cacheadas (se invalidan al guardar en el panel)
@@ -149,9 +149,8 @@ scripts/
 
 - **Colores y tipografías**: `src/app/globals.css` (bloque `@theme`). Títulos en Anton, textos en Montserrat.
 - **Intro de apertura**: `src/components/site/intro.tsx`. Logo + línea de carga + cortina (≈2 s). Se ve una vez por sesión, se puede saltar y se desactiva si el usuario prefiere menos movimiento.
-- **Portada**: si no se sube video ni foto en Ajustes, muestra la ilustración animada del furgón térmico. Al subir un video o foto, pasa a usarse de fondo.
+- **Portada**: carrusel de hasta 10 fotos y título grande editables desde **Ajustes del sitio**. La primera foto es la que aparece siempre al entrar (recomendado: un furgón térmico); las demás pasan solas cada 6 segundos.
 - **Textos de térmicos**: `src/lib/termicos.ts`. Validar con Graas antes de publicar (materiales, alcance del equipo de frío, etc.).
-- **Video de portada**: se sube desde **Ajustes del sitio**. Recomendado: MP4 horizontal, 10–20 s, menos de 30 MB, sin sonido.
 
 ---
 

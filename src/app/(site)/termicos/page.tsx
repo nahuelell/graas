@@ -5,7 +5,7 @@ import { WhatsAppIcon } from "@/components/site/icons";
 import { JsonLd } from "@/components/site/json-ld";
 import { Reveal, RevealLines } from "@/components/site/reveal";
 import { ThermalCta, ThermalFaq, ThermalFeatures, ThermalProcess, ThermalUses } from "@/components/site/thermal-showcase";
-import { ThermalTruck } from "@/components/site/thermal-truck";
+import { MediaImage } from "@/components/site/media-image";
 import { config } from "@/lib/config";
 import { getProducts, getSettings } from "@/lib/data";
 import { TERMICOS_FAQ } from "@/lib/termicos";
@@ -26,6 +26,8 @@ export default async function TermicosPage() {
   const [settings, products] = await Promise.all([getSettings(), getProducts()]);
   const thermal = products.filter((p) => p.category === "termicas");
   const wa = whatsappLink(settings.whatsapp, "Hola Graas, quiero cotizar un furgón térmico.");
+  // Foto principal: la primera foto de un modelo térmico o, si no hay, la primera de la portada.
+  const cover = thermal.find((p) => p.images.length)?.images[0] ?? settings.hero_images[0] ?? null;
 
   return (
     <>
@@ -50,7 +52,7 @@ export default async function TermicosPage() {
 
       <section className="relative overflow-hidden border-b border-line bg-ink-2 pb-16 pt-36 grain">
         <div className="pointer-events-none absolute right-[-10%] top-1/3 h-[60vh] w-[60vh] rounded-full bg-frost/10 blur-[120px]" />
-        <div className="container-x relative grid items-center gap-10 lg:grid-cols-2">
+        <div className={`container-x relative grid items-center gap-10 ${cover ? "lg:grid-cols-2" : ""}`}>
           <div>
             <p className="kicker mb-4 flex items-center gap-3"><span className="h-px w-8 bg-brand" />Carrocerías térmicas</p>
             <h1 className="h-display text-6xl sm:text-7xl lg:text-8xl">
@@ -68,7 +70,14 @@ export default async function TermicosPage() {
               </div>
             </Reveal>
           </div>
-          <ThermalTruck className="w-full" />
+          {cover && (
+            <Reveal delay={0.1}>
+              <div className="relative aspect-[4/3] overflow-hidden rounded-3xl border border-line">
+                <MediaImage asset={cover} alt={cover.alt || "Furgón térmico Graas"} fill priority sizes="(min-width:1024px) 45vw, 100vw" className="object-cover" />
+                <div className="absolute inset-0 bg-gradient-to-t from-ink/50 to-transparent" />
+              </div>
+            </Reveal>
+          )}
         </div>
       </section>
 

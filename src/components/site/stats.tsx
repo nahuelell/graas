@@ -30,7 +30,7 @@ export function Stats({ since = 1985 }: { since?: number }) {
   );
   const items = [
     { value: <Counter to={years} prefix="+" />, label: "años fabricando", sub: "en Crespo, Entre Ríos" },
-    { value: <span>Térmicos</span>, label: "nuestra especialidad", sub: "furgones isotérmicos" },
+    { value: <span>Térmicos</span>, label: "y metálicas", sub: "furgones isotérmicos" },
     { value: <span>A medida</span>, label: "de cada chasis", sub: "diseño propio" },
     { value: <span>100%</span>, label: "homologadas", sub: "y certificadas" },
   ];

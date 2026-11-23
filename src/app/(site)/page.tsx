@@ -8,7 +8,7 @@ import { WhatsAppIcon } from "@/components/site/icons";
 import { Intro, IntroGate } from "@/components/site/intro";
 import { Marquee } from "@/components/site/marquee";
 import { Reveal } from "@/components/site/reveal";
-import { ThermalCta, ThermalFeatures, ThermalUses } from "@/components/site/thermal-showcase";
+import { ThermalBand } from "@/components/site/thermal-showcase";
 import { Stats } from "@/components/site/stats";
 import { SERVICES } from "@/lib/catalog";
 import { getProducts, getSettings, getTrabajos, getUsados } from "@/lib/data";
@@ -18,11 +18,12 @@ const SERVICE_ICONS = { wrench: Wrench, spray: SprayCan, laser: Zap, fold: Layer
 
 export default async function HomePage() {
   const [settings, products, usados, trabajos] = await Promise.all([getSettings(), getProducts(), getUsados(), getTrabajos()]);
-  const thermal = products.filter((p) => p.category === "termicas");
-  const others = products.filter((p) => p.category !== "termicas");
+  // Térmicos primero, después el resto (respetando destacados y orden del panel)
+  const sorted = [...products].sort((x, y) => Number(y.category === "termicas") - Number(x.category === "termicas"));
+  const featured = (sorted.some((p) => p.featured) ? sorted.filter((p) => p.featured) : sorted).slice(0, 4);
   const waThermal = whatsappLink(settings.whatsapp, "Hola Graas, quiero cotizar un furgón térmico.");
   const latestUsados = usados.filter((u) => u.status !== "vendido").slice(0, 3);
-  const wa = whatsappLink(settings.whatsapp, "Hola Graas, quiero cotizar un furgón térmico.");
+  const wa = whatsappLink(settings.whatsapp, "Hola Graas, quiero pedir un presupuesto.");
   const mapQuery = encodeURIComponent(settings.maps_query || `${settings.address}, ${settings.city}`);
 
   return (
@@ -30,56 +31,38 @@ export default async function HomePage() {
       <IntroGate />
       <Intro />
       <Hero
-        kicker={settings.hero_kicker || "Carrocerías térmicas · Crespo, Entre Ríos"}
+        title={settings.hero_title || "Carrocerías\nhechas para\ntrabajar."}
+        kicker={settings.hero_kicker || "Fábrica en Crespo · Entre Ríos · Desde 1985"}
         subtitle={settings.hero_subtitle || ""}
-        video={settings.hero_video}
-        image={settings.hero_image}
+        images={settings.hero_images}
         whatsapp={wa}
       />
       <Marquee />
       <Stats />
 
-      {/* ── Térmicos (foco) ───────────────────────── */}
-      <ThermalFeatures showLink />
-      <ThermalUses />
-      {thermal.length > 0 && (
-        <section className="py-24 sm:py-28">
-          <div className="container-x">
-            <SectionHeading kicker="Modelos térmicos" lines={["Elegí tu", "furgón térmico"]} />
-            <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-              {thermal.map((p, i) => (
-                <Reveal key={p.id} delay={i * 0.08} className="h-full">
-                  <ProductCard product={p} />
-                </Reveal>
-              ))}
-            </div>
+      {/* ── Carrocerías ─────────────────────────────── */}
+      <section id="carrocerias" className="py-24 sm:py-32">
+        <div className="container-x">
+          <div className="flex flex-wrap items-end justify-between gap-8">
+            <SectionHeading kicker="Nuestras carrocerías" lines={["Elegí la que", "necesita tu trabajo"]} />
+            <Reveal>
+              <Link href="/carrocerias" className="btn-ghost group">
+                Ver catálogo completo <ArrowRight className="size-4 transition group-hover:translate-x-1" />
+              </Link>
+            </Reveal>
           </div>
-        </section>
-      )}
-      <ThermalCta whatsapp={waThermal} />
-
-      {/* ── También fabricamos ──────────────────────── */}
-      {others.length > 0 && (
-        <section id="carrocerias" className="py-24 sm:py-32">
-          <div className="container-x">
-            <div className="flex flex-wrap items-end justify-between gap-8">
-              <SectionHeading kicker="También fabricamos" lines={["Carrocerías", "metálicas"]} />
-              <Reveal>
-                <Link href="/carrocerias" className="btn-ghost group">
-                  Ver catálogo completo <ArrowRight className="size-4 transition group-hover:translate-x-1" />
-                </Link>
+          <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {featured.map((p, i) => (
+              <Reveal key={p.id} delay={i * 0.08} className="h-full">
+                <ProductCard product={p} />
               </Reveal>
-            </div>
-            <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-              {others.slice(0, 4).map((p, i) => (
-                <Reveal key={p.id} delay={i * 0.08} className="h-full">
-                  <ProductCard product={p} />
-                </Reveal>
-              ))}
-            </div>
+            ))}
           </div>
-        </section>
-      )}
+        </div>
+      </section>
+
+      {/* ── Banda térmicos → /termicos ──────────────── */}
+      <ThermalBand whatsapp={waThermal} />
 
       {/* ── Servicios ───────────────────────────────── */}
       <section id="servicios" className="relative border-y border-line bg-ink-2 py-24 sm:py-32">
