@@ -1,66 +1,68 @@
+import Image from "next/image";
 import Link from "next/link";
 import type { Settings } from "@/lib/types";
 import { telLink } from "@/lib/utils";
-import { FacebookIcon, InstagramIcon } from "./icons";
-import { Logo } from "./logo";
 import { CurrentYear } from "./current-year";
+import { FacebookIcon, InstagramIcon } from "./icons";
 
 export function Footer({ settings }: { settings: Settings }) {
   return (
-    <footer className="border-t border-line bg-ink-2">
-      <div className="container-x grid gap-12 py-16 md:grid-cols-[1.4fr_1fr_1fr]">
+    <footer className="bg-char text-white">
+      <div className="container-x grid gap-12 py-20 md:grid-cols-[1.5fr_1fr_1fr]">
         <div>
-          <Logo />
-          <p className="mt-5 max-w-sm text-sm leading-relaxed text-muted">
-            Fábrica de carrocerías y furgones térmicos desde 1985 en el Parque Industrial de Crespo, Entre Ríos.
+          <div className="flex items-center gap-3">
+            <Image src="/brand/logo-graas.png" alt="" width={40} height={40} className="rounded-full" />
+            <span className="wide text-lg font-bold">Carrocerías Graas</span>
+          </div>
+          <p className="mt-5 max-w-sm leading-relaxed text-white/60">
+            Fábrica de carrocerías y furgones térmicos desde 1985, en el Parque Industrial de Crespo, Entre Ríos.
           </p>
-          <div className="mt-6 flex gap-3">
+          <div className="mt-6 flex gap-2">
             {settings.instagram && (
-              <a href={settings.instagram} target="_blank" rel="noopener" aria-label="Instagram" className="grid size-10 place-items-center rounded-full border border-line text-muted transition hover:border-brand hover:text-brand">
+              <a href={settings.instagram} target="_blank" rel="noopener" aria-label="Instagram" className="grid size-10 place-items-center rounded-full border border-white/20 text-white/70 transition-colors hover:border-white hover:text-white">
                 <InstagramIcon className="size-4" />
               </a>
             )}
             {settings.facebook && (
-              <a href={settings.facebook} target="_blank" rel="noopener" aria-label="Facebook" className="grid size-10 place-items-center rounded-full border border-line text-muted transition hover:border-brand hover:text-brand">
+              <a href={settings.facebook} target="_blank" rel="noopener" aria-label="Facebook" className="grid size-10 place-items-center rounded-full border border-white/20 text-white/70 transition-colors hover:border-white hover:text-white">
                 <FacebookIcon className="size-4" />
               </a>
             )}
           </div>
         </div>
-        <div>
-          <p className="kicker mb-4">Sitio</p>
-          <ul className="space-y-2.5 text-sm text-muted">
+        <nav aria-label="Secciones">
+          <p className="mb-4 text-sm text-white/45">Secciones</p>
+          <ul className="space-y-2.5 text-white/80">
             {[
-              ["/termicos", "Furgones térmicos"],
               ["/carrocerias", "Carrocerías"],
+              ["/termicos", "Furgones térmicos"],
               ["/usados", "Usados"],
               ["/trabajos", "Trabajos entregados"],
-              ["/#servicios", "Servicios"],
               ["/#contacto", "Contacto"],
             ].map(([href, label]) => (
               <li key={href}>
-                <Link href={href} className="transition hover:text-white">{label}</Link>
+                <Link href={href} className="transition-colors hover:text-brand">{label}</Link>
               </li>
             ))}
           </ul>
-        </div>
+        </nav>
         <div>
-          <p className="kicker mb-4">Contacto</p>
-          <ul className="space-y-2.5 text-sm text-muted">
-            {settings.phone && <li><a href={telLink(settings.phone)} className="hover:text-white">{settings.phone}</a></li>}
-            {settings.email && <li><a href={`mailto:${settings.email}`} className="hover:text-white">{settings.email}</a></li>}
+          <p className="mb-4 text-sm text-white/45">Contacto</p>
+          <ul className="space-y-2.5 text-white/80">
+            {settings.phone && <li><a href={telLink(settings.phone)} className="hover:text-brand">{settings.phone}</a></li>}
+            {settings.email && <li><a href={`mailto:${settings.email}`} className="hover:text-brand">{settings.email}</a></li>}
             {settings.address && <li>{settings.address}</li>}
             {settings.city && <li>{settings.city}</li>}
             {settings.hours && <li>{settings.hours}</li>}
           </ul>
         </div>
       </div>
-      <div className="border-t border-line">
-        <div className="container-x flex flex-col items-center justify-between gap-3 py-6 text-xs text-dim sm:flex-row">
-          <p>© <CurrentYear /> {settings.legal_name ?? settings.company_name}. Todos los derechos reservados.</p>
+      <div className="border-t border-white/10">
+        <div className="container-x flex flex-col justify-between gap-2 py-6 text-sm text-white/45 sm:flex-row">
+          <p>© <CurrentYear /> {settings.legal_name ?? settings.company_name}</p>
           <p>
-            Sitio desarrollado por{" "}
-            <a href="https://www.lelldigital.com" target="_blank" rel="noopener" className="font-semibold text-muted hover:text-white">
+            Sitio de{" "}
+            <a href="https://www.lelldigital.com" target="_blank" rel="noopener" className="text-white/70 hover:text-white">
               Lell Digital
             </a>
           </p>

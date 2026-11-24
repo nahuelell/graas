@@ -4,28 +4,28 @@ import { AnimatePresence, motion } from "motion/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Logo } from "./logo";
-import { WhatsAppIcon } from "./icons";
 
 const NAV = [
   { href: "/carrocerias", label: "Carrocerías" },
   { href: "/termicos", label: "Térmicos" },
-  { href: "/#servicios", label: "Servicios" },
-  { href: "/trabajos", label: "Trabajos" },
   { href: "/usados", label: "Usados" },
-  { href: "/#nosotros", label: "Nosotros" },
+  { href: "/trabajos", label: "Trabajos" },
+  { href: "/#taller", label: "Taller" },
   { href: "/#contacto", label: "Contacto" },
 ];
+
+const EASE = [0.22, 1, 0.36, 1] as const;
 
 export function Header({ whatsapp }: { whatsapp: string }) {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
+  const overHero = pathname === "/" && !scrolled && !open;
 
   useEffect(() => {
-    const on = () => setScrolled(window.scrollY > 40);
+    const on = () => setScrolled(window.scrollY > 60);
     on();
     window.addEventListener("scroll", on, { passive: true });
     return () => window.removeEventListener("scroll", on);
@@ -39,12 +39,12 @@ export function Header({ whatsapp }: { whatsapp: string }) {
     <>
       <header
         className={cn(
-          "fixed inset-x-0 top-0 z-50 transition-all duration-500",
-          scrolled || open ? "border-b border-line/70 bg-ink/85 py-3 backdrop-blur-xl" : "py-5",
+          "fixed inset-x-0 top-0 z-50 transition-[background-color,border-color,padding] duration-500",
+          overHero ? "border-b border-transparent py-6" : "border-b border-rule/80 bg-paper/90 py-3.5 backdrop-blur-md",
         )}
       >
         <div className="container-x flex items-center justify-between gap-6">
-          <Logo size={scrolled ? 36 : 42} />
+          <Logo tone={overHero ? "light" : "dark"} size={overHero ? 40 : 34} />
           <nav className="hidden items-center gap-8 lg:flex" aria-label="Principal">
             {NAV.map((item) => {
               const active = !item.href.includes("#") && pathname.startsWith(item.href);
@@ -52,10 +52,13 @@ export function Header({ whatsapp }: { whatsapp: string }) {
                 <Link
                   key={item.href}
                   href={item.href}
+                  aria-current={active ? "page" : undefined}
                   className={cn(
-                    "relative text-sm font-semibold text-white/80 transition hover:text-white",
-                    "after:absolute after:-bottom-1.5 after:left-0 after:h-0.5 after:w-full after:origin-left after:scale-x-0 after:bg-brand after:transition after:duration-300 hover:after:scale-x-100",
-                    active && "text-white after:scale-x-100",
+                    "relative text-[0.92rem] font-medium transition-colors duration-500",
+                    overHero ? "text-white/85 hover:text-white" : "text-char/70 hover:text-char",
+                    active && (overHero ? "text-white" : "text-char"),
+                    "after:absolute after:-bottom-1 after:left-0 after:h-[2px] after:w-full after:origin-left after:bg-brand after:transition-transform after:duration-500",
+                    active ? "after:scale-x-100" : "after:scale-x-0 hover:after:scale-x-100",
                   )}
                 >
                   {item.label}
@@ -64,16 +67,17 @@ export function Header({ whatsapp }: { whatsapp: string }) {
             })}
           </nav>
           <div className="flex items-center gap-2">
-            <a href={whatsapp} target="_blank" rel="noopener" className="btn-wa hidden px-5 py-2.5 text-xs sm:inline-flex">
-              <WhatsAppIcon className="size-4" /> WhatsApp
+            <a href={whatsapp} target="_blank" rel="noopener" className="btn-yellow hidden px-5 py-2.5 sm:inline-flex">
+              Pedir presupuesto
             </a>
             <button
               onClick={() => setOpen((v) => !v)}
-              className="grid size-11 place-items-center rounded-full border border-line text-white lg:hidden"
+              className={cn("relative grid size-11 place-items-center rounded-full transition-colors lg:hidden", overHero ? "text-white" : "text-char")}
               aria-label={open ? "Cerrar menú" : "Abrir menú"}
               aria-expanded={open}
             >
-              {open ? <X className="size-5" /> : <Menu className="size-5" />}
+              <span className={cn("absolute h-[2px] w-5 bg-current transition-transform duration-300", open ? "rotate-45" : "-translate-y-[4px]")} />
+              <span className={cn("absolute h-[2px] w-5 bg-current transition-transform duration-300", open ? "-rotate-45" : "translate-y-[4px]")} />
             </button>
           </div>
         </div>
@@ -82,28 +86,29 @@ export function Header({ whatsapp }: { whatsapp: string }) {
       <AnimatePresence>
         {open && (
           <motion.div
-            className="fixed inset-0 z-40 flex flex-col bg-ink px-6 pb-10 pt-28 lg:hidden"
-            initial={{ clipPath: "inset(0 0 100% 0)" }}
-            animate={{ clipPath: "inset(0 0 0% 0)" }}
-            exit={{ clipPath: "inset(0 0 100% 0)" }}
-            transition={{ duration: 0.6, ease: [0.76, 0, 0.24, 1] }}
+            className="fixed inset-0 z-40 flex flex-col bg-paper px-6 pb-10 pt-28 lg:hidden"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.35 }}
           >
-            <nav className="flex flex-col gap-1" aria-label="Menú móvil">
+            <nav className="flex flex-col" aria-label="Menú móvil">
               {NAV.map((item, i) => (
                 <motion.div
                   key={item.href}
-                  initial={{ opacity: 0, y: 30 }}
+                  initial={{ opacity: 0, y: 16 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.2 + i * 0.05, duration: 0.5 }}
+                  transition={{ delay: 0.05 + i * 0.04, duration: 0.6, ease: EASE }}
+                  className="border-b border-rule"
                 >
-                  <Link href={item.href} onClick={() => setOpen(false)} className="h-display block py-2 text-5xl text-white transition hover:text-brand">
+                  <Link href={item.href} onClick={() => setOpen(false)} className="h-display block py-4 text-3xl">
                     {item.label}
                   </Link>
                 </motion.div>
               ))}
             </nav>
-            <a href={whatsapp} target="_blank" rel="noopener" className="btn-wa mt-auto w-full py-4">
-              <WhatsAppIcon className="size-5" /> Escribinos por WhatsApp
+            <a href={whatsapp} target="_blank" rel="noopener" className="btn-yellow mt-auto w-full py-4">
+              Pedir presupuesto por WhatsApp
             </a>
           </motion.div>
         )}

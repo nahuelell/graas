@@ -15,11 +15,10 @@ export default async function CarroceriasPage() {
   return (
     <>
       <PageBanner
-        kicker="Catálogo"
         title={["Carrocerías", "a medida"]}
         text="Diseñamos y fabricamos cada carrocería según el chasis y el trabajo de tu camión. Todas homologadas y certificadas."
       />
-      <section className="container-x py-16 sm:py-20">
+      <section className="container-x pb-28">
         <FilterGrid kind="products" items={products} />
       </section>
     </>

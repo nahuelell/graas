@@ -3,17 +3,12 @@ import localFont from "next/font/local";
 import { config } from "@/lib/config";
 import "./globals.css";
 
-const anton = localFont({
-  src: "../fonts/Anton-Regular.ttf",
-  variable: "--font-anton",
-  display: "swap",
-});
-
-const montserrat = localFont({
-  src: "../fonts/Montserrat-Variable.ttf",
-  variable: "--font-montserrat",
+const archivo = localFont({
+  src: "../fonts/Archivo-Variable.ttf",
+  variable: "--font-archivo",
   weight: "100 900",
   display: "swap",
+  declarations: [{ prop: "font-stretch", value: "62% 125%" }],
 });
 
 export const metadata: Metadata = {
@@ -49,12 +44,12 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0d0d0f",
+  themeColor: "#f3f4f4",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="es-AR" className={`${anton.variable} ${montserrat.variable}`}>
+    <html lang="es-AR" className={archivo.variable}>
       <body>{children}</body>
     </html>
   );

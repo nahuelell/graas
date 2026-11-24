@@ -30,7 +30,7 @@ export const demoSettings: Settings = {
   facebook: "https://www.facebook.com/carroceriasgraas/",
   maps_query: "Carrocerías Graas, Santiago Eichhorn 235, Crespo, Entre Ríos",
   hero_title: "Carrocerías\nhechas para\ntrabajar.",
-  hero_kicker: "Fábrica en Crespo · Entre Ríos · Desde 1985",
+  hero_kicker: "Fábrica de carrocerías en Crespo, Entre Ríos, desde 1985",
   hero_subtitle:
     "Furgones térmicos y carrocerías metálicas a medida de tu camión. Diseño, fabricación, homologación y service en un solo lugar.",
   // Fotos de portada (máx. 10). La primera es la que aparece siempre al entrar: idealmente un furgón térmico.

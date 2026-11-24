@@ -1,29 +1,25 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Clock, Fuel, Layers, Mail, MapPin, Phone, SprayCan, Wrench, Zap, Gauge } from "lucide-react";
 import { ProductCard, SectionHeading, TrabajoCard, UsadoCard } from "@/components/site/blocks";
 import { ContactForm } from "@/components/site/contact-form";
 import { Hero } from "@/components/site/hero";
-import { WhatsAppIcon } from "@/components/site/icons";
 import { Intro, IntroGate } from "@/components/site/intro";
-import { Marquee } from "@/components/site/marquee";
-import { Reveal } from "@/components/site/reveal";
-import { ThermalBand } from "@/components/site/thermal-showcase";
-import { Stats } from "@/components/site/stats";
+import { Reveal, RevealImage, RevealLines } from "@/components/site/reveal";
+import { ThermalSplit } from "@/components/site/thermal-showcase";
 import { SERVICES } from "@/lib/catalog";
 import { getProducts, getSettings, getTrabajos, getUsados } from "@/lib/data";
 import { telLink, whatsappLink } from "@/lib/utils";
-
-const SERVICE_ICONS = { wrench: Wrench, spray: SprayCan, laser: Zap, fold: Layers, suspension: Gauge, tank: Fuel } as const;
 
 export default async function HomePage() {
   const [settings, products, usados, trabajos] = await Promise.all([getSettings(), getProducts(), getUsados(), getTrabajos()]);
   // Térmicos primero, después el resto (respetando destacados y orden del panel)
   const sorted = [...products].sort((x, y) => Number(y.category === "termicas") - Number(x.category === "termicas"));
-  const featured = (sorted.some((p) => p.featured) ? sorted.filter((p) => p.featured) : sorted).slice(0, 4);
-  const waThermal = whatsappLink(settings.whatsapp, "Hola Graas, quiero cotizar un furgón térmico.");
+  const featured = (sorted.some((p) => p.featured) ? sorted.filter((p) => p.featured) : sorted).slice(0, 3);
+  const thermalImage =
+    products.find((p) => p.category === "termicas" && p.images.length)?.images[0] ?? settings.hero_images[0] ?? null;
   const latestUsados = usados.filter((u) => u.status !== "vendido").slice(0, 3);
   const wa = whatsappLink(settings.whatsapp, "Hola Graas, quiero pedir un presupuesto.");
+  const waThermal = whatsappLink(settings.whatsapp, "Hola Graas, quiero cotizar un furgón térmico.");
   const mapQuery = encodeURIComponent(settings.maps_query || `${settings.address}, ${settings.city}`);
 
   return (
@@ -31,146 +27,123 @@ export default async function HomePage() {
       <IntroGate />
       <Intro />
       <Hero
-        title={settings.hero_title || "Carrocerías\nhechas para\ntrabajar."}
-        kicker={settings.hero_kicker || "Fábrica en Crespo · Entre Ríos · Desde 1985"}
+        title={settings.hero_title || "Carrocerías\nhechas para\ntrabajar"}
+        kicker={settings.hero_kicker || ""}
         subtitle={settings.hero_subtitle || ""}
         images={settings.hero_images}
         whatsapp={wa}
       />
-      <Marquee />
-      <Stats />
 
-      {/* ── Carrocerías ─────────────────────────────── */}
-      <section id="carrocerias" className="py-24 sm:py-32">
+      {/* Presentación */}
+      <section className="py-24 sm:py-32">
+        <div className="container-x grid gap-14 lg:grid-cols-[1.6fr_1fr] lg:gap-24">
+          <Reveal>
+            <p className="wide text-2xl font-medium leading-snug sm:text-[2.1rem] sm:leading-[1.25]">
+              Desde 1985 fabricamos carrocerías a medida en el Parque Industrial de Crespo. Furgones térmicos, carrocerías metálicas y reparaciones, con taller propio y trato directo.
+            </p>
+          </Reveal>
+          <Reveal delay={0.15}>
+            <dl className="border-t border-rule">
+              {[
+                ["Fábrica", "Parque Industrial de Crespo, Ruta 12"],
+                ["Trayectoria", "Empresa familiar desde 1985"],
+                ["Entrega", "Homologadas y certificadas"],
+              ].map(([k, v]) => (
+                <div key={k} className="flex justify-between gap-6 border-b border-rule py-4">
+                  <dt className="text-steel">{k}</dt>
+                  <dd className="text-right font-medium">{v}</dd>
+                </div>
+              ))}
+            </dl>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* Carrocerías */}
+      <section id="carrocerias" className="pb-24 sm:pb-32">
         <div className="container-x">
-          <div className="flex flex-wrap items-end justify-between gap-8">
-            <SectionHeading kicker="Nuestras carrocerías" lines={["Elegí la que", "necesita tu trabajo"]} />
-            <Reveal>
-              <Link href="/carrocerias" className="btn-ghost group">
-                Ver catálogo completo <ArrowRight className="size-4 transition group-hover:translate-x-1" />
-              </Link>
-            </Reveal>
-          </div>
-          <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            {featured.map((p, i) => (
-              <Reveal key={p.id} delay={i * 0.08} className="h-full">
-                <ProductCard product={p} />
-              </Reveal>
+          <SectionHeading title={["Carrocerías"]} action={<Link href="/carrocerias" className="link-line">Ver el catálogo</Link>} />
+          <div className="mt-12 grid gap-x-6 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
+            {featured.map((p) => (
+              <ProductCard key={p.id} product={p} />
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── Banda térmicos → /termicos ──────────────── */}
-      <ThermalBand whatsapp={waThermal} />
+      <ThermalSplit image={thermalImage} whatsapp={waThermal} />
 
-      {/* ── Servicios ───────────────────────────────── */}
-      <section id="servicios" className="relative border-y border-line bg-ink-2 py-24 sm:py-32">
-        <div className="container-x grid gap-14 lg:grid-cols-[0.9fr_1.1fr]">
-          <div className="lg:sticky lg:top-32 lg:self-start">
-            <SectionHeading
-              kicker="Además de fabricar"
-              lines={["Todo para", "tu unidad,", "en un lugar."]}
-              text="Taller propio con equipamiento pesado en el Parque Industrial de Crespo, sobre la Ruta Nacional 12."
-            />
-          </div>
-          <div className="grid gap-4 sm:grid-cols-2">
-            {SERVICES.map((s, i) => {
-              const Icon = SERVICE_ICONS[s.icon];
-              return (
-                <Reveal key={s.title} delay={(i % 2) * 0.08}>
-                  <div className="group card h-full p-7 transition duration-500 hover:border-brand/60 hover:bg-panel-2">
-                    <span className="grid size-12 place-items-center rounded-xl bg-brand/10 text-brand transition duration-500 group-hover:rotate-6 group-hover:bg-brand group-hover:text-ink">
-                      <Icon className="size-6" />
-                    </span>
-                    <h3 className="mt-6 text-lg font-bold">{s.title}</h3>
-                    <p className="mt-2 text-sm leading-relaxed text-muted">{s.text}</p>
-                  </div>
-                </Reveal>
-              );
-            })}
-          </div>
+      {/* Taller y servicios */}
+      <section id="taller" className="py-24 sm:py-32">
+        <div className="container-x grid gap-12 lg:grid-cols-[1fr_1.6fr] lg:gap-20">
+          <SectionHeading title={["Taller", "y servicios"]} text="Además de fabricar, reparamos y preparamos unidades en nuestro taller." />
+          <ul className="border-t border-rule">
+            {SERVICES.map((s, i) => (
+              <Reveal key={s.title} as="li" delay={i * 0.04} className="grid gap-1 border-b border-rule py-5 sm:grid-cols-[1fr_1.4fr] sm:gap-8">
+                <span className="text-lg font-semibold">{s.title}</span>
+                <span className="leading-relaxed text-steel">{s.text}</span>
+              </Reveal>
+            ))}
+          </ul>
         </div>
       </section>
 
-      {/* ── Trabajos entregados ─────────────────────── */}
+      {/* Trabajos entregados */}
       {trabajos.length > 0 && (
-        <section id="trabajos" className="overflow-hidden py-24 sm:py-32">
-          <div className="container-x flex flex-wrap items-end justify-between gap-8">
-            <SectionHeading kicker="Trabajos reales" lines={["Unidades", "entregadas"]} />
-            <Link href="/trabajos" className="btn-ghost group">
-              Ver todos <ArrowRight className="size-4 transition group-hover:translate-x-1" />
-            </Link>
+        <section className="overflow-hidden bg-white py-24 sm:py-32">
+          <div className="container-x">
+            <SectionHeading title={["Unidades entregadas"]} action={<Link href="/trabajos" className="link-line">Ver todas</Link>} />
           </div>
-          <div className="mt-14 flex snap-x snap-mandatory gap-5 overflow-x-auto px-5 pb-6 sm:px-8 lg:px-[max(2rem,calc((100vw-80rem)/2+2rem))] [scrollbar-width:none]">
-            {trabajos.slice(0, 8).map((t, i) => (
-              <Reveal key={t.id} delay={i * 0.06} className="shrink-0 snap-start">
-                <TrabajoCard trabajo={t} className="aspect-[4/5] w-[78vw] sm:w-[22rem]" />
-              </Reveal>
+          <div className="mt-12 flex snap-x snap-mandatory gap-6 overflow-x-auto pb-4 [scrollbar-width:none]" style={{ paddingInline: "max(1.25rem, calc((100vw - 84rem) / 2 + 3rem))", scrollPaddingInline: "max(1.25rem, calc((100vw - 84rem) / 2 + 3rem))" }}>
+            {trabajos.slice(0, 8).map((t) => (
+              <TrabajoCard key={t.id} trabajo={t} className="w-[75vw] shrink-0 snap-start sm:w-[20rem]" />
             ))}
           </div>
-          {settings.instagram && (
-            <div className="container-x mt-6">
-              <a href={settings.instagram} target="_blank" rel="noopener" className="text-sm font-bold text-brand hover:underline">
-                Seguinos en Instagram @carrocerias.graas ›
-              </a>
-            </div>
-          )}
         </section>
       )}
 
-      {/* ── Usados ─────────────────────────────────── */}
-      <section className="bg-brand py-20 text-ink">
+      {/* Usados */}
+      <section className="py-24 sm:py-32">
         <div className="container-x">
-          <div className="flex flex-wrap items-end justify-between gap-6">
-            <div>
-              <p className="text-xs font-bold tracking-[0.22em] uppercase">Oportunidades</p>
-              <h2 className="h-display mt-3 text-5xl sm:text-7xl">¿Buscás un usado?</h2>
-              <p className="mt-3 max-w-xl font-medium text-ink/70">Carrocerías usadas y tomadas en parte de pago, revisadas por nosotros.</p>
-            </div>
-            <Link href="/usados" className="btn bg-ink text-brand hover:bg-white hover:text-ink">
-              Ver todos los usados <ArrowRight className="size-4" />
-            </Link>
-          </div>
-          {latestUsados.length > 0 && (
-            <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-              {latestUsados.map((u, i) => (
-                <Reveal key={u.id} delay={i * 0.08} className="h-full text-white">
-                  <UsadoCard usado={u} />
-                </Reveal>
+          <SectionHeading
+            title={["Usados"]}
+            text="Unidades usadas y tomadas en parte de pago, revisadas en nuestro taller."
+            action={<Link href="/usados" className="link-line">Ver todos los usados</Link>}
+          />
+          {latestUsados.length > 0 ? (
+            <div className="mt-12 grid gap-x-6 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
+              {latestUsados.map((u) => (
+                <UsadoCard key={u.id} usado={u} />
               ))}
             </div>
+          ) : (
+            <p className="mt-10 text-steel">Ahora no hay unidades usadas publicadas. Escribinos y te avisamos cuando ingrese una.</p>
           )}
         </div>
       </section>
 
-      {/* ── Nosotros ───────────────────────────────── */}
-      <section id="nosotros" className="py-24 sm:py-32">
-        <div className="container-x grid items-center gap-14 lg:grid-cols-2">
-          <Reveal className="relative">
-            <div className="relative aspect-[4/5] overflow-hidden rounded-3xl border border-line">
-              <Image src="/demo/taller.jpg" alt="Soldadura en el taller de Carrocerías Graas" fill sizes="(min-width:1024px) 45vw, 100vw" className="object-cover" />
-            </div>
-            <div className="absolute -bottom-6 -right-4 rounded-2xl bg-brand px-7 py-5 text-ink shadow-2xl sm:-right-8">
-              <p className="font-display text-5xl">1985</p>
-              <p className="text-xs font-bold tracking-widest uppercase">Empresa familiar</p>
-            </div>
-          </Reveal>
-          <div>
-            <SectionHeading kicker="Nosotros" lines={["Una familia", "de metalúrgicos"]} />
-            <Reveal delay={0.1}>
-              <p className="mt-6 text-base leading-relaxed text-muted">{settings.about}</p>
+      {/* Nosotros */}
+      <section id="nosotros" className="bg-white py-24 sm:py-32">
+        <div className="container-x grid items-start gap-14 lg:grid-cols-2 lg:gap-20">
+          <RevealImage className="relative aspect-[4/5] overflow-hidden rounded-[4px] bg-paper-2">
+            <Image src="/demo/taller.jpg" alt="Soldadura en el taller de Carrocerías Graas" fill sizes="(min-width:1024px) 45vw, 100vw" className="object-cover" />
+          </RevealImage>
+          <div className="lg:pt-10">
+            <h2 className="h-display text-4xl sm:text-5xl lg:text-[3.4rem]">
+              <RevealLines lines={["Una empresa", "familiar"]} />
+            </h2>
+            <Reveal delay={0.15}>
+              <p className="mt-6 max-w-lg text-[1.05rem] leading-relaxed text-steel">{settings.about}</p>
             </Reveal>
-            <ol className="mt-10 space-y-6 border-l border-line pl-8">
+            <ol className="mt-12 border-t border-rule">
               {[
-                ["1985", "Nace como Metalúrgica Santa María en Crespo."],
+                ["1985", "Nace como Metalúrgica Santa María, en Crespo."],
                 ["1994", "Nos mudamos al Parque Industrial, sobre la Ruta 12."],
                 ["Hoy", "Fabricamos, reparamos y homologamos para toda la región."],
               ].map(([y, t], i) => (
-                <Reveal key={y} as="li" delay={i * 0.1} className="relative">
-                  <span className="absolute -left-[2.45rem] top-1 size-3 rounded-full bg-brand ring-4 ring-ink" />
-                  <p className="font-display text-2xl text-brand">{y}</p>
-                  <p className="text-sm text-white/80">{t}</p>
+                <Reveal key={y} as="li" delay={i * 0.08} className="grid grid-cols-[5rem_1fr] gap-4 border-b border-rule py-4">
+                  <span className="wide font-bold">{y}</span>
+                  <span className="text-steel">{t}</span>
                 </Reveal>
               ))}
             </ol>
@@ -178,61 +151,48 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── Contacto ───────────────────────────────── */}
-      <section id="contacto" className="border-t border-line bg-ink-2 py-24 sm:py-32">
-        <div className="container-x grid gap-14 lg:grid-cols-2">
+      {/* Contacto */}
+      <section id="contacto" className="py-24 sm:py-32">
+        <div className="container-x grid gap-16 lg:grid-cols-[1fr_1.3fr] lg:gap-24">
           <div>
-            <SectionHeading kicker="Contacto" lines={["Hablemos de tu", "próxima unidad."]} />
-            <ul className="mt-10 space-y-5">
-              {settings.whatsapp && (
-                <li>
-                  <a href={wa} target="_blank" rel="noopener" className="group flex items-center gap-4">
-                    <span className="grid size-12 place-items-center rounded-xl bg-wa/15 text-wa"><WhatsAppIcon className="size-5" /></span>
-                    <span><span className="block text-xs text-dim">WhatsApp</span><span className="font-semibold group-hover:text-brand">Escribinos ahora</span></span>
-                  </a>
-                </li>
-              )}
-              {settings.phone && (
-                <li>
-                  <a href={telLink(settings.phone)} className="group flex items-center gap-4">
-                    <span className="grid size-12 place-items-center rounded-xl bg-brand/10 text-brand"><Phone className="size-5" /></span>
-                    <span><span className="block text-xs text-dim">Teléfono</span><span className="font-semibold group-hover:text-brand">{settings.phone}</span></span>
-                  </a>
-                </li>
-              )}
-              {settings.email && (
-                <li>
-                  <a href={`mailto:${settings.email}`} className="group flex items-center gap-4">
-                    <span className="grid size-12 place-items-center rounded-xl bg-brand/10 text-brand"><Mail className="size-5" /></span>
-                    <span><span className="block text-xs text-dim">Email</span><span className="font-semibold group-hover:text-brand">{settings.email}</span></span>
-                  </a>
-                </li>
-              )}
-              <li className="flex items-center gap-4">
-                <span className="grid size-12 place-items-center rounded-xl bg-brand/10 text-brand"><MapPin className="size-5" /></span>
-                <span><span className="block text-xs text-dim">Dirección</span><span className="font-semibold">{settings.address}, {settings.city}</span></span>
-              </li>
-              {settings.hours && (
-                <li className="flex items-center gap-4">
-                  <span className="grid size-12 place-items-center rounded-xl bg-brand/10 text-brand"><Clock className="size-5" /></span>
-                  <span><span className="block text-xs text-dim">Horario</span><span className="font-semibold">{settings.hours}</span></span>
-                </li>
-              )}
-            </ul>
-            <div className="mt-10 overflow-hidden rounded-2xl border border-line">
-              <iframe
-                title="Ubicación de Carrocerías Graas"
-                src={`https://www.google.com/maps?q=${mapQuery}&output=embed`}
-                className="h-72 w-full grayscale invert-[0.92] hue-rotate-180"
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-              />
-            </div>
-            <a href={`https://www.google.com/maps/dir/?api=1&destination=${mapQuery}`} target="_blank" rel="noopener" className="mt-4 inline-block text-sm font-bold text-brand hover:underline">
-              Cómo llegar ›
-            </a>
+            <h2 className="h-display text-4xl sm:text-5xl lg:text-[3.4rem]">
+              <RevealLines lines={["Hablemos de", "tu próxima unidad"]} />
+            </h2>
+            <Reveal delay={0.15}>
+              <dl className="mt-10 border-t border-rule">
+                {[
+                  settings.whatsapp && ["WhatsApp", <a key="wa" href={wa} target="_blank" rel="noopener" className="hover:underline">Escribinos</a>],
+                  settings.phone && ["Teléfono", <a key="tel" href={telLink(settings.phone)} className="hover:underline">{settings.phone}</a>],
+                  settings.email && ["Email", <a key="mail" href={`mailto:${settings.email}`} className="hover:underline">{settings.email}</a>],
+                  ["Dirección", `${settings.address}, ${settings.city}`],
+                  settings.hours && ["Horario", settings.hours],
+                ]
+                  .filter(Boolean)
+                  .map((row) => {
+                    const [k, v] = row as [string, React.ReactNode];
+                    return (
+                      <div key={k} className="grid grid-cols-[7rem_1fr] gap-4 border-b border-rule py-4">
+                        <dt className="text-steel">{k}</dt>
+                        <dd className="font-medium">{v}</dd>
+                      </div>
+                    );
+                  })}
+              </dl>
+              <div className="mt-8 overflow-hidden rounded-[4px] bg-paper-2">
+                <iframe
+                  title="Ubicación de Carrocerías Graas"
+                  src={`https://www.google.com/maps?q=${mapQuery}&output=embed`}
+                  className="h-64 w-full grayscale"
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                />
+              </div>
+              <a href={`https://www.google.com/maps/dir/?api=1&destination=${mapQuery}`} target="_blank" rel="noopener" className="link-line mt-5 text-sm">
+                Cómo llegar
+              </a>
+            </Reveal>
           </div>
-          <Reveal>
+          <Reveal delay={0.1} className="lg:pt-4">
             <ContactForm />
           </Reveal>
         </div>

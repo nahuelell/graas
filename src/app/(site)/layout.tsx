@@ -16,16 +16,14 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
       <main>{children}</main>
       <Footer settings={settings} />
 
-      {/* Botón flotante de WhatsApp */}
       <a
         href={wa}
         target="_blank"
         rel="noopener"
         aria-label="Escribinos por WhatsApp"
-        className="fixed bottom-5 right-5 z-40 grid size-14 place-items-center rounded-full bg-wa text-white shadow-[0_10px_30px_-5px_rgba(37,211,102,0.6)] transition hover:scale-110"
+        className="fixed bottom-5 right-5 z-40 grid size-13 place-items-center rounded-full bg-wa text-white shadow-[0_8px_24px_-8px_rgba(0,0,0,0.45)] transition-transform duration-300 hover:-translate-y-0.5"
       >
-        <span className="absolute inset-0 animate-ring rounded-full bg-wa" />
-        <WhatsAppIcon className="relative size-7" />
+        <WhatsAppIcon className="size-6" />
       </a>
     </>
   );

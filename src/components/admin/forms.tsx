@@ -170,8 +170,8 @@ export function SettingsForm({ settings }: { settings: Settings | null }) {
           <Field label="Fotos de portada (máx. 10)" hint="La primera es la que aparece siempre al entrar: poné un furgón térmico. Después van pasando las demás. Fotos horizontales, de buena calidad.">
             <ImageUploader name="hero_images" folder="sitio" max={10} label="Subir fotos" initial={s?.hero_images ?? []} />
           </Field>
-          <Field label="Título grande" hint="Un renglón por línea. El último renglón se pinta en amarillo.">
-            <textarea name="hero_title" rows={3} defaultValue={s?.hero_title ?? "Carrocerías\nhechas para\ntrabajar."} className={inputCls + " font-display text-lg uppercase"} />
+          <Field label="Título grande" hint="Escribí cada renglón en una línea nueva.">
+            <textarea name="hero_title" rows={3} defaultValue={s?.hero_title ?? "Carrocerías\nhechas para\ntrabajar."} className={inputCls + " text-lg font-semibold"} />
           </Field>
           <Field label="Texto superior (chico)"><input name="hero_kicker" defaultValue={s?.hero_kicker ?? ""} className={inputCls} /></Field>
           <Field label="Bajada"><textarea name="hero_subtitle" rows={3} defaultValue={s?.hero_subtitle ?? ""} className={inputCls} /></Field>

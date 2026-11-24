@@ -3,11 +3,13 @@
 import { motion, useReducedMotion } from "motion/react";
 import type { ReactNode } from "react";
 
-/** Aparece al entrar en pantalla (desliza hacia arriba + fade). */
+const EASE = [0.22, 1, 0.36, 1] as const;
+
+/** Entrada sutil: aparece y sube apenas, al entrar en pantalla. */
 export function Reveal({
   children,
   delay = 0,
-  y = 40,
+  y = 14,
   className,
   as = "div",
 }: {
@@ -15,7 +17,7 @@ export function Reveal({
   delay?: number;
   y?: number;
   className?: string;
-  as?: "div" | "li" | "section" | "article";
+  as?: "div" | "li" | "section" | "article" | "p";
 }) {
   const reduce = useReducedMotion();
   const Comp = motion[as];
@@ -24,32 +26,60 @@ export function Reveal({
       className={className}
       initial={reduce ? false : { opacity: 0, y }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-80px" }}
-      transition={{ duration: 0.8, delay, ease: [0.16, 1, 0.3, 1] }}
+      viewport={{ once: true, margin: "0px 0px -12% 0px" }}
+      transition={{ duration: 1, delay, ease: EASE }}
     >
       {children}
     </Comp>
   );
 }
 
-/** Título que se revela línea por línea, como una persiana. */
-export function RevealLines({ lines, className, accentLast = false }: { lines: string[]; className?: string; accentLast?: boolean }) {
+/** Imagen que se descubre de abajo hacia arriba, con un leve acercamiento. */
+export function RevealImage({ children, className, delay = 0 }: { children: ReactNode; className?: string; delay?: number }) {
   const reduce = useReducedMotion();
   return (
-    <span className={className}>
+    <motion.div
+      className={className}
+      initial={reduce ? false : { clipPath: "inset(18% 0% 0% 0%)", opacity: 0 }}
+      whileInView={{ clipPath: "inset(0% 0% 0% 0%)", opacity: 1 }}
+      viewport={{ once: true, margin: "0px 0px -10% 0px" }}
+      transition={{ duration: 1.3, delay, ease: EASE }}
+    >
+      <motion.div
+        className="h-full w-full"
+        initial={reduce ? false : { scale: 1.08 }}
+        whileInView={{ scale: 1 }}
+        viewport={{ once: true, margin: "0px 0px -10% 0px" }}
+        transition={{ duration: 1.6, delay, ease: EASE }}
+      >
+        {children}
+      </motion.div>
+    </motion.div>
+  );
+}
+
+/** Título que entra renglón por renglón (el disparador está en el contenedor, no en los renglones ocultos). */
+export function RevealLines({ lines, className, delay = 0 }: { lines: string[]; className?: string; delay?: number }) {
+  const reduce = useReducedMotion();
+  return (
+    <motion.span
+      className={className ? `block ${className}` : "block"}
+      initial={reduce ? false : "hidden"}
+      whileInView="show"
+      viewport={{ once: true, margin: "0px 0px -8% 0px" }}
+      transition={{ staggerChildren: 0.08, delayChildren: delay }}
+    >
       {lines.map((line, i) => (
-        <span key={i} className="-mt-[0.14em] block overflow-hidden pb-[0.06em] pt-[0.14em]">
+        <span key={i} className="-mt-[0.12em] block overflow-hidden pb-[0.04em] pt-[0.12em]">
           <motion.span
-            className={`block ${accentLast && i === lines.length - 1 ? "text-brand" : ""}`}
-            initial={reduce ? false : { y: "105%" }}
-            whileInView={{ y: "0%" }}
-            viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: 0.9, delay: i * 0.09, ease: [0.16, 1, 0.3, 1] }}
+            className="block"
+            variants={{ hidden: { y: "105%" }, show: { y: "0%" } }}
+            transition={{ duration: 1.1, ease: EASE }}
           >
             {line}
           </motion.span>
         </span>
       ))}
-    </span>
+    </motion.span>
   );
 }

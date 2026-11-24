@@ -2,7 +2,17 @@ import type { SVGProps } from "react";
 import type { TruckKind } from "@/lib/catalog";
 
 /** Ícono lineal de camión según el tipo de carrocería (mismo estilo que la propuesta). */
-export function TruckIcon({ kind = "box", className, strokeWidth = 1.6 }: { kind?: TruckKind | string; className?: string; strokeWidth?: number }) {
+export function TruckIcon({
+  kind = "box",
+  className,
+  strokeWidth = 1.6,
+  wheelFill = "var(--color-ink, #0d0d0f)",
+}: {
+  kind?: TruckKind | string;
+  className?: string;
+  strokeWidth?: number;
+  wheelFill?: string;
+}) {
   return (
     <svg viewBox="0 0 64 44" fill="none" stroke="currentColor" strokeWidth={strokeWidth} strokeLinejoin="round" strokeLinecap="round" className={className} aria-hidden>
       {/* cabina */}
@@ -35,9 +45,9 @@ export function TruckIcon({ kind = "box", className, strokeWidth = 1.6 }: { kind
         </>
       )}
       {kind === "box" && <rect x="1" y="6" width="41" height="27" rx="1" />}
-      <circle cx="10" cy="37" r="4" fill="var(--color-ink, #0d0d0f)" />
-      <circle cx="19" cy="37" r="4" fill="var(--color-ink, #0d0d0f)" />
-      <circle cx="53" cy="37" r="4" fill="var(--color-ink, #0d0d0f)" />
+      <circle cx="10" cy="37" r="4" fill={wheelFill} />
+      <circle cx="19" cy="37" r="4" fill={wheelFill} />
+      <circle cx="53" cy="37" r="4" fill={wheelFill} />
     </svg>
   );
 }

@@ -13,7 +13,7 @@ function subscribe(cb: () => void) {
   return () => window.removeEventListener(INTRO_DONE_EVENT, cb);
 }
 
-/** true cuando la intro ya terminó (o se salteó). Compartido con el hero. */
+/** true cuando la intro ya terminó (o se salteó). Compartido con la portada. */
 export function useIntroSeen() {
   return useSyncExternalStore(
     subscribe,
@@ -31,10 +31,7 @@ function finish() {
   window.dispatchEvent(new Event(INTRO_DONE_EVENT));
 }
 
-/**
- * Intro de apertura, sobria y corta (≈2 s, una vez por sesión):
- * aparece el logo, se completa una línea de carga y una cortina negra + amarilla sube y revela el sitio.
- */
+/** Apertura breve (≈1,4 s, una vez por sesión): aparece el logo y la pantalla se levanta. */
 export function Intro() {
   const seen = useIntroSeen();
   const [leaving, setLeaving] = useState(false);
@@ -46,7 +43,7 @@ export function Intro() {
       return;
     }
     document.body.style.overflow = "hidden";
-    const t = setTimeout(() => setLeaving(true), 1500);
+    const t = setTimeout(() => setLeaving(true), 1100);
     return () => {
       clearTimeout(t);
       document.body.style.overflow = "";
@@ -56,53 +53,29 @@ export function Intro() {
   if (seen) return null;
 
   return (
-    <div id="intro" className="fixed inset-0 z-[100]" aria-hidden>
-      {/* franja amarilla que acompaña la cortina */}
+    <motion.div
+      id="intro"
+      className="fixed inset-0 z-[100] grid place-items-center bg-paper"
+      initial={{ clipPath: "inset(0% 0% 0% 0%)" }}
+      animate={leaving ? { clipPath: "inset(0% 0% 100% 0%)" } : undefined}
+      transition={{ duration: 0.9, ease: EASE }}
+      onAnimationComplete={() => leaving && finish()}
+      onClick={() => setLeaving(true)}
+      aria-hidden
+    >
       <motion.div
-        className="absolute inset-0 bg-brand"
-        initial={{ y: 0 }}
-        animate={leaving ? { y: "-100%" } : { y: 0 }}
-        transition={{ duration: 0.85, delay: 0.12, ease: EASE }}
-        onAnimationComplete={() => leaving && finish()}
-      />
-      {/* cortina negra */}
-      <motion.div
-        className="absolute inset-0 flex flex-col items-center justify-center bg-ink"
-        initial={{ y: 0 }}
-        animate={leaving ? { y: "-100%" } : { y: 0 }}
-        transition={{ duration: 0.85, ease: EASE }}
+        className="flex items-center gap-4"
+        initial={{ opacity: 0, y: 10 }}
+        animate={leaving ? { opacity: 0, y: -10 } : { opacity: 1, y: 0 }}
+        transition={{ duration: leaving ? 0.35 : 0.8, ease: [0.22, 1, 0.36, 1] }}
       >
-        <motion.div
-          className="flex items-center gap-4"
-          initial={{ opacity: 0, y: 14, filter: "blur(8px)" }}
-          animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-        >
-          <Image src="/brand/logo-graas.png" alt="" width={64} height={64} className="rounded-full" priority />
-          <span className="flex flex-col leading-none">
-            <span className="font-display text-5xl tracking-wider text-white">GRAAS</span>
-            <span className="mt-1 text-[0.65rem] font-bold tracking-[0.4em] text-brand">CARROCERÍAS</span>
-          </span>
-        </motion.div>
-        <div className="mt-8 h-px w-44 overflow-hidden bg-white/15">
-          <motion.div
-            className="h-full origin-left bg-brand"
-            initial={{ scaleX: 0 }}
-            animate={{ scaleX: 1 }}
-            transition={{ duration: 1.2, delay: 0.2, ease: [0.65, 0, 0.35, 1] }}
-          />
-        </div>
+        <Image src="/brand/logo-graas.png" alt="" width={56} height={56} className="rounded-full" priority />
+        <span className="leading-tight">
+          <span className="wide block text-2xl font-bold text-char">Graas</span>
+          <span className="block text-sm text-steel">Carrocerías desde 1985</span>
+        </span>
       </motion.div>
-
-      {!leaving && (
-        <button
-          onClick={() => setLeaving(true)}
-          className="absolute bottom-6 right-6 z-10 text-xs font-bold tracking-[0.25em] text-dim transition hover:text-white"
-        >
-          SALTAR ›
-        </button>
-      )}
-    </div>
+    </motion.div>
   );
 }
 

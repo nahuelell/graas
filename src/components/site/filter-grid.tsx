@@ -7,19 +7,14 @@ import type { Product, Usado } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { ProductCard, UsadoCard } from "./blocks";
 
-type Props =
-  | { kind: "products"; items: Product[] }
-  | { kind: "usados"; items: Usado[] };
+type Props = { kind: "products"; items: Product[] } | { kind: "usados"; items: Usado[] };
 
-/** Grilla con filtros por categoría (y estado, en usados), animada. */
+/** Grilla con filtro por tipo (y "solo disponibles" en usados). */
 export function FilterGrid(props: Props) {
   const [cat, setCat] = useState("todas");
   const [onlyAvailable, setOnlyAvailable] = useState(false);
 
-  const cats = useMemo(() => {
-    const set = new Set(props.items.map((i) => i.category));
-    return ["todas", ...set];
-  }, [props.items]);
+  const cats = useMemo(() => ["todas", ...new Set(props.items.map((i) => i.category))], [props.items]);
 
   const filtered = useMemo(() => {
     let list = props.items as (Product | Usado)[];
@@ -30,45 +25,46 @@ export function FilterGrid(props: Props) {
 
   return (
     <div>
-      <div className="flex flex-wrap items-center gap-2">
+      <div className="flex flex-wrap items-center gap-x-6 gap-y-3 border-b border-rule pb-4">
         {cats.map((c) => (
           <button
             key={c}
             onClick={() => setCat(c)}
+            aria-pressed={cat === c}
             className={cn(
-              "rounded-full border px-4 py-2 text-sm font-semibold transition",
-              cat === c ? "border-brand bg-brand text-ink" : "border-line text-muted hover:border-white/40 hover:text-white",
+              "relative text-[0.95rem] transition-colors",
+              cat === c ? "font-semibold text-char" : "text-steel hover:text-char",
             )}
           >
             {c === "todas" ? "Todas" : getCategory(c).name}
+            {cat === c && <motion.span layoutId={`filter-${props.kind}`} className="absolute -bottom-[17px] left-0 h-[2px] w-full bg-brand" />}
           </button>
         ))}
         {props.kind === "usados" && (
-          <label className="ml-auto flex cursor-pointer items-center gap-2 text-sm font-semibold text-muted">
-            <input type="checkbox" checked={onlyAvailable} onChange={(e) => setOnlyAvailable(e.target.checked)} className="size-4 accent-[var(--color-brand)]" />
+          <label className="ml-auto flex cursor-pointer items-center gap-2 text-[0.95rem] text-steel">
+            <input type="checkbox" checked={onlyAvailable} onChange={(e) => setOnlyAvailable(e.target.checked)} className="size-4 accent-[var(--color-char)]" />
             Solo disponibles
           </label>
         )}
       </div>
 
-      <motion.div layout className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      <motion.div layout className="mt-12 grid gap-x-6 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
         <AnimatePresence mode="popLayout">
           {filtered.map((item) => (
             <motion.div
               key={item.id}
               layout
-              initial={{ opacity: 0, scale: 0.94 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.94 }}
-              transition={{ duration: 0.35 }}
-              className="h-full"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.4 }}
             >
               {props.kind === "products" ? <ProductCard product={item as Product} /> : <UsadoCard usado={item as Usado} />}
             </motion.div>
           ))}
         </AnimatePresence>
       </motion.div>
-      {filtered.length === 0 && <p className="mt-10 text-muted">No hay unidades en esta categoría por ahora.</p>}
+      {filtered.length === 0 && <p className="mt-10 text-steel">No hay unidades de este tipo por ahora.</p>}
     </div>
   );
 }

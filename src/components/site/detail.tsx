@@ -1,13 +1,11 @@
 import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
 import type { ReactNode } from "react";
 import { getCategory } from "@/lib/catalog";
 import type { MediaAsset, Spec } from "@/lib/types";
+import { Specs } from "./blocks";
 import { ContactForm } from "./contact-form";
 import { Gallery } from "./gallery";
-import { WhatsAppIcon } from "./icons";
-import { Reveal } from "./reveal";
-import { Specs } from "./blocks";
+import { Reveal, RevealLines } from "./reveal";
 
 /** Ficha de detalle compartida por carrocerías y usados. */
 export function DetailView({
@@ -39,42 +37,50 @@ export function DetailView({
 }) {
   const cat = getCategory(category);
   return (
-    <article className="container-x pb-24 pt-32">
-      <Link href={back.href} className="inline-flex items-center gap-2 text-sm font-semibold text-muted transition hover:text-brand">
-        <ArrowLeft className="size-4" /> {back.label}
-      </Link>
-      <div className="mt-8 grid gap-12 lg:grid-cols-[1.15fr_0.85fr]">
+    <article className="container-x pb-28 pt-32 sm:pt-36">
+      <nav aria-label="Ubicación" className="text-sm text-steel">
+        <Link href={back.href} className="hover:text-char">{back.label}</Link>
+        <span className="mx-2">/</span>
+        <span className="text-char">{title}</span>
+      </nav>
+      <div className="mt-8 grid gap-12 lg:grid-cols-[1.3fr_1fr] lg:gap-16">
         <Reveal>
           <Gallery images={images} title={title} fallbackKind={cat.icon} />
         </Reveal>
         <div>
-          <div className="flex flex-wrap items-center gap-3">
-            <span className="kicker">{cat.name}</span>
+          <div className="flex flex-wrap items-center gap-4 text-steel">
+            <span>{cat.name}</span>
             {badge}
           </div>
-          <h1 className="h-display mt-3 text-5xl sm:text-6xl">{title}</h1>
-          {price !== undefined && <p className="mt-4 font-display text-4xl text-brand">{price ?? "Consultar precio"}</p>}
-          {summary && <p className="mt-5 text-lg leading-relaxed text-white/80">{summary}</p>}
-          <div className="mt-8">
+          <h1 className="h-display mt-3 text-4xl sm:text-5xl">
+            <RevealLines lines={[title]} />
+          </h1>
+          {price !== undefined && <p className="mt-4 text-2xl font-semibold">{price ?? "Precio a consultar"}</p>}
+          {summary && (
+            <Reveal delay={0.1}>
+              <p className="mt-5 text-lg leading-relaxed text-steel">{summary}</p>
+            </Reveal>
+          )}
+          <Reveal delay={0.15} className="mt-8">
             <Specs specs={specs} />
-          </div>
-          <a href={whatsapp} target="_blank" rel="noopener" className="btn-wa mt-8 w-full py-4">
-            <WhatsAppIcon className="size-5" /> Consultar por WhatsApp
-          </a>
+          </Reveal>
+          <Reveal delay={0.2}>
+            <a href={whatsapp} target="_blank" rel="noopener" className="btn-yellow mt-8">
+              Consultar por WhatsApp
+            </a>
+          </Reveal>
           {description && (
-            <div className="mt-10 space-y-4 text-sm leading-relaxed text-muted">
-              {description.split(/\n+/).map((p, i) => (
-                <p key={i}>{p}</p>
-              ))}
+            <div className="mt-10 max-w-prose space-y-4 leading-relaxed text-steel">
+              {description.split(/\n+/).map((p, i) => <p key={i}>{p}</p>)}
             </div>
           )}
         </div>
       </div>
-      <section className="mt-24 grid gap-10 lg:grid-cols-[0.8fr_1.2fr]">
+
+      <section className="mt-28 grid gap-12 border-t border-rule pt-16 lg:grid-cols-[1fr_1.3fr] lg:gap-16">
         <div>
-          <p className="kicker">Pedí tu presupuesto</p>
-          <h2 className="h-display mt-3 text-4xl sm:text-5xl">¿Te interesa?<br /><span className="text-brand">Escribinos.</span></h2>
-          <p className="mt-4 text-muted">Contanos el chasis y el uso, y te respondemos con una propuesta a medida.</p>
+          <h2 className="h-display text-3xl sm:text-4xl">Pedí un presupuesto</h2>
+          <p className="mt-4 max-w-sm text-steel">Contanos el chasis y el uso, y te respondemos con una propuesta a medida.</p>
         </div>
         <ContactForm defaultInterest={interest} source={source} />
       </section>

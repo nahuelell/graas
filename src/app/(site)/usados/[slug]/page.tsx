@@ -77,7 +77,7 @@ async function UsadoDetail({ params }: Params) {
 
 export default function Page(props: Params) {
   return (
-    <Suspense fallback={<div className="container-x min-h-screen pt-40 text-muted">Cargando…</div>}>
+    <Suspense fallback={<div className="container-x min-h-screen pt-40 text-steel">Cargando…</div>}>
       <UsadoDetail {...props} />
     </Suspense>
   );

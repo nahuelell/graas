@@ -2,20 +2,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 
-export function Logo({ className, size = 40 }: { className?: string; size?: number }) {
+export function Logo({ className, size = 38, tone = "dark" }: { className?: string; size?: number; tone?: "dark" | "light" }) {
   return (
-    <Link href="/" className={cn("group flex items-center gap-3", className)} aria-label="Carrocerías Graas, inicio">
-      <Image
-        src="/brand/logo-graas.png"
-        alt=""
-        width={size}
-        height={size}
-        className="rounded-full transition duration-500 group-hover:rotate-[360deg]"
-        priority
-      />
-      <span className="flex flex-col leading-none">
-        <span className="font-display text-xl tracking-wider text-white">GRAAS</span>
-        <span className="text-[0.55rem] font-bold tracking-[0.3em] text-brand">CARROCERÍAS</span>
+    <Link href="/" className={cn("flex items-center gap-3", className)} aria-label="Carrocerías Graas, inicio">
+      <Image src="/brand/logo-graas.png" alt="" width={size} height={size} className="rounded-full" priority />
+      <span className={cn("text-[0.95rem] font-bold leading-tight transition-colors duration-500", tone === "light" ? "text-white" : "text-char")}>
+        <span className="wide block">Graas</span>
+        <span className="block text-xs font-medium opacity-60">Carrocerías</span>
       </span>
     </Link>
   );

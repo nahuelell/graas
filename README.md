@@ -7,7 +7,7 @@ Desarrollado por **Lell Digital** junto a **Communitypym**.
 | Pieza | Tecnología |
 |---|---|
 | Framework | Next.js 16 (App Router, Cache Components) + React 19 + TypeScript |
-| Estilos y animación | Tailwind CSS 4 + Motion (intro, carrusel de portada, revelados al scroll) |
+| Estilos y animación | Tailwind CSS 4 + Motion (intro, carrusel de portada, entradas sutiles al hacer scroll) |
 | Base de datos y login | Supabase (Postgres + Auth + Row Level Security) |
 | Imágenes y video | Cloudinary (subida firmada directa desde el panel, formato y calidad automáticos) |
 | Hosting recomendado | Vercel |
@@ -147,8 +147,8 @@ scripts/
 
 ### Personalizar
 
-- **Colores y tipografías**: `src/app/globals.css` (bloque `@theme`). Títulos en Anton, textos en Montserrat.
-- **Intro de apertura**: `src/components/site/intro.tsx`. Logo + línea de carga + cortina (≈2 s). Se ve una vez por sesión, se puede saltar y se desactiva si el usuario prefiere menos movimiento.
+- **Colores y tipografía**: `src/app/globals.css` (bloque `@theme`). Sitio público claro (papel gris, texto carbón, amarillo Graas solo en la acción principal); panel oscuro. Una sola familia, Archivo, con títulos en ancho extendido.
+- **Intro de apertura**: `src/components/site/intro.tsx`. Logo sobre fondo claro que se levanta (≈1,4 s). Se ve una vez por sesión, se puede saltar y se desactiva si el usuario prefiere menos movimiento.
 - **Portada**: carrusel de hasta 10 fotos y título grande editables desde **Ajustes del sitio**. La primera foto es la que aparece siempre al entrar (recomendado: un furgón térmico); las demás pasan solas cada 6 segundos.
 - **Textos de térmicos**: `src/lib/termicos.ts`. Validar con Graas antes de publicar (materiales, alcance del equipo de frío, etc.).
 

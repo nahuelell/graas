@@ -1,117 +1,96 @@
 import Link from "next/link";
-import {
-  ArrowRight,
-  Beef,
-  DoorOpen,
-  Droplets,
-  Fan,
-  Milk,
-  Ruler,
-  ShieldCheck,
-  ShoppingBasket,
-  Snowflake,
-  Truck,
-} from "lucide-react";
 import { TERMICOS_FAQ, TERMICOS_FEATURES, TERMICOS_PROCESO, TERMICOS_USOS } from "@/lib/termicos";
+import type { MediaAsset } from "@/lib/types";
 import { SectionHeading } from "./blocks";
-import { WhatsAppIcon } from "./icons";
-import { Reveal } from "./reveal";
+import { MediaImage } from "./media-image";
+import { Reveal, RevealImage, RevealLines } from "./reveal";
 
-const ICONS = {
-  snowflake: Snowflake,
-  droplets: Droplets,
-  fan: Fan,
-  door: DoorOpen,
-  ruler: Ruler,
-  shield: ShieldCheck,
-  milk: Milk,
-  beef: Beef,
-  basket: ShoppingBasket,
-  truck: Truck,
-} as const;
-
-/** Características de los furgones térmicos. */
-export function ThermalFeatures({ showLink = false }: { showLink?: boolean }) {
+/** Bloque del inicio: foto + texto que lleva a /termicos. */
+export function ThermalSplit({ image, whatsapp }: { image: MediaAsset | null; whatsapp: string }) {
   return (
-    <section className="relative overflow-hidden py-24 sm:py-32">
-      <div className="pointer-events-none absolute -left-40 top-20 h-96 w-96 rounded-full bg-frost/10 blur-[120px]" />
-      <div className="container-x relative">
-        <div className="flex flex-wrap items-end justify-between gap-8">
-          <SectionHeading
-            kicker="Especialistas en frío"
-            lines={["Carrocerías", "térmicas Graas"]}
-            text="Furgones isotérmicos pensados para el trabajo diario: aislación, higiene y resistencia, fabricados a medida en Crespo."
-          />
-          {showLink && (
-            <Reveal>
-              <Link href="/termicos" className="btn-ghost group">
-                Todo sobre térmicos <ArrowRight className="size-4 transition group-hover:translate-x-1" />
-              </Link>
-            </Reveal>
-          )}
-        </div>
-        <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {TERMICOS_FEATURES.map((f, i) => {
-            const Icon = ICONS[f.icon];
-            return (
-              <Reveal key={f.title} delay={(i % 3) * 0.08}>
-                <div className="group card relative h-full overflow-hidden p-7 transition duration-500 hover:border-frost/60">
-                  <div className="pointer-events-none absolute -right-10 -top-10 size-32 rounded-full bg-frost/0 blur-2xl transition duration-500 group-hover:bg-frost/20" />
-                  <span className="grid size-12 place-items-center rounded-xl bg-frost/10 text-frost transition duration-500 group-hover:bg-frost group-hover:text-ink">
-                    <Icon className="size-6" />
-                  </span>
-                  <h3 className="mt-6 text-lg font-bold">{f.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-muted">{f.text}</p>
-                </div>
-              </Reveal>
-            );
-          })}
+    <section className="bg-white py-24 sm:py-32">
+      <div className="container-x grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
+        {image ? (
+          <RevealImage className="relative aspect-[5/4] overflow-hidden rounded-[4px] bg-paper-2">
+            <MediaImage asset={image} alt={image.alt || "Furgón térmico Graas"} fill sizes="(min-width:1024px) 45vw, 100vw" className="object-cover" />
+          </RevealImage>
+        ) : (
+          <div className="aspect-[5/4] rounded-[4px] bg-paper-2" />
+        )}
+        <div>
+          <h2 className="h-display text-4xl sm:text-5xl lg:text-[3.4rem]">
+            <RevealLines lines={["Furgones térmicos", "a medida"]} />
+          </h2>
+          <Reveal delay={0.15}>
+            <p className="mt-6 max-w-md text-[1.05rem] leading-relaxed text-steel">
+              Carrocerías isotérmicas para lácteos, carnes, alimentos y reparto refrigerado. Las diseñamos según tu chasis y lo que vas a transportar.
+            </p>
+            <ul className="mt-8 max-w-md border-t border-rule">
+              {TERMICOS_FEATURES.slice(0, 3).map((f) => (
+                <li key={f.title} className="border-b border-rule py-3.5">{f.title}</li>
+              ))}
+            </ul>
+            <div className="mt-9 flex flex-wrap items-center gap-6">
+              <Link href="/termicos" className="btn-dark">Ver furgones térmicos</Link>
+              <a href={whatsapp} target="_blank" rel="noopener" className="link-line text-sm">Cotizar por WhatsApp</a>
+            </div>
+          </Reveal>
         </div>
       </div>
     </section>
   );
 }
 
-/** Rubros donde se usan. */
+/** Características: lista en dos columnas. */
+export function ThermalFeatures() {
+  return (
+    <section className="py-24 sm:py-28">
+      <div className="container-x grid gap-12 lg:grid-cols-[1fr_1.6fr] lg:gap-20">
+        <SectionHeading title={["Cómo son", "nuestros térmicos"]} />
+        <dl className="grid gap-x-10 sm:grid-cols-2">
+          {TERMICOS_FEATURES.map((f, i) => (
+            <Reveal key={f.title} delay={(i % 2) * 0.08} className="border-t border-rule py-6">
+              <dt className="text-lg font-semibold">{f.title}</dt>
+              <dd className="mt-1.5 leading-relaxed text-steel">{f.text}</dd>
+            </Reveal>
+          ))}
+        </dl>
+      </div>
+    </section>
+  );
+}
+
+/** Rubros. */
 export function ThermalUses() {
   return (
-    <section className="border-y border-line bg-ink-2 py-20">
+    <section className="bg-white py-24 sm:py-28">
       <div className="container-x">
-        <p className="kicker">Para cada rubro</p>
-        <div className="mt-8 grid gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-2 lg:grid-cols-4">
-          {TERMICOS_USOS.map((u, i) => {
-            const Icon = ICONS[u.icon];
-            return (
-              <Reveal key={u.title} delay={i * 0.06} className="bg-ink-2 p-7">
-                <Icon className="size-8 text-brand" strokeWidth={1.5} />
-                <h3 className="h-display mt-5 text-2xl">{u.title}</h3>
-                <p className="mt-2 text-sm text-muted">{u.text}</p>
-              </Reveal>
-            );
-          })}
+        <SectionHeading title={["Para cada rubro"]} />
+        <div className="mt-12 grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
+          {TERMICOS_USOS.map((u, i) => (
+            <Reveal key={u.title} delay={i * 0.06}>
+              <h3 className="wide text-xl font-bold">{u.title}</h3>
+              <p className="mt-2 leading-relaxed text-steel">{u.text}</p>
+            </Reveal>
+          ))}
         </div>
       </div>
     </section>
   );
 }
 
-/** Cómo trabajamos, en 4 pasos. */
+/** Proceso de trabajo (es una secuencia, por eso va numerado). */
 export function ThermalProcess() {
   return (
-    <section className="py-24 sm:py-32">
+    <section className="py-24 sm:py-28">
       <div className="container-x">
-        <SectionHeading kicker="Cómo trabajamos" lines={["De tu chasis", "a la ruta"]} />
-        <ol className="mt-14 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+        <SectionHeading title={["De tu chasis", "a la ruta"]} />
+        <ol className="mt-12 grid gap-x-8 gap-y-10 border-t border-rule pt-10 md:grid-cols-2 lg:grid-cols-4">
           {TERMICOS_PROCESO.map((p, i) => (
-            <Reveal key={p.title} as="li" delay={i * 0.08} className="relative">
-              <div className="card h-full p-7">
-                <span className="font-display text-6xl text-white/10">0{i + 1}</span>
-                <h3 className="mt-2 text-lg font-bold">{p.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted">{p.text}</p>
-              </div>
-              {i < TERMICOS_PROCESO.length - 1 && (
-                <span className="absolute -right-3 top-1/2 hidden h-px w-6 bg-brand lg:block" />
-              )}
+            <Reveal key={p.title} as="li" delay={i * 0.08}>
+              <span className="text-sm tabular-nums text-steel">Paso {i + 1}</span>
+              <h3 className="mt-2 text-lg font-semibold">{p.title}</h3>
+              <p className="mt-1.5 leading-relaxed text-steel">{p.text}</p>
             </Reveal>
           ))}
         </ol>
@@ -120,20 +99,23 @@ export function ThermalProcess() {
   );
 }
 
-/** Preguntas frecuentes (también se publican como datos estructurados para Google). */
+/** Preguntas frecuentes (también van como datos estructurados para Google). */
 export function ThermalFaq() {
   return (
-    <section className="border-t border-line bg-ink-2 py-24 sm:py-32">
-      <div className="container-x grid gap-12 lg:grid-cols-[0.8fr_1.2fr]">
-        <SectionHeading kicker="Preguntas frecuentes" lines={["Lo que más", "nos consultan"]} />
-        <div className="divide-y divide-line border-y border-line">
+    <section className="bg-white py-24 sm:py-28">
+      <div className="container-x grid gap-12 lg:grid-cols-[1fr_1.6fr] lg:gap-20">
+        <SectionHeading title={["Preguntas", "frecuentes"]} />
+        <div className="border-t border-rule">
           {TERMICOS_FAQ.map((f) => (
-            <details key={f.q} className="group py-6">
-              <summary className="flex cursor-pointer list-none items-center justify-between gap-6 text-lg font-bold transition hover:text-brand [&::-webkit-details-marker]:hidden">
+            <details key={f.q} className="group border-b border-rule">
+              <summary className="flex cursor-pointer list-none items-center justify-between gap-6 py-5 text-lg font-semibold [&::-webkit-details-marker]:hidden">
                 {f.q}
-                <span className="grid size-8 shrink-0 place-items-center rounded-full border border-line text-brand transition group-open:rotate-45">+</span>
+                <span className="relative size-4 shrink-0" aria-hidden>
+                  <span className="absolute left-0 top-1/2 h-[2px] w-4 -translate-y-1/2 bg-char" />
+                  <span className="absolute left-1/2 top-0 h-4 w-[2px] -translate-x-1/2 bg-char transition-transform duration-300 group-open:scale-y-0" />
+                </span>
               </summary>
-              <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted">{f.a}</p>
+              <p className="max-w-2xl pb-6 leading-relaxed text-steel">{f.a}</p>
             </details>
           ))}
         </div>
@@ -142,47 +124,22 @@ export function ThermalFaq() {
   );
 }
 
-/** Banda final de llamado a la acción. */
+/** Cierre con llamado a la acción. */
 export function ThermalCta({ whatsapp }: { whatsapp: string }) {
   return (
-    <section className="relative overflow-hidden bg-brand py-20 text-ink">
-      <Snowflake className="pointer-events-none absolute -right-16 -top-16 size-80 text-ink/10" strokeWidth={1} />
-      <div className="container-x relative flex flex-wrap items-center justify-between gap-8">
-        <div>
-          <p className="text-xs font-bold tracking-[0.22em] uppercase">Presupuesto a medida</p>
-          <h2 className="h-display mt-3 text-5xl sm:text-7xl">Cotizá tu furgón térmico</h2>
-          <p className="mt-3 max-w-xl font-medium text-ink/70">Contanos el chasis, las medidas y qué vas a transportar. Te respondemos con una propuesta a medida.</p>
-        </div>
-        <a href={whatsapp} target="_blank" rel="noopener" className="btn bg-ink py-4 text-brand hover:bg-white hover:text-ink">
-          <WhatsAppIcon className="size-5" /> Escribinos por WhatsApp
-        </a>
-      </div>
-    </section>
-  );
-}
-
-/** Banda compacta para el inicio que lleva a /termicos. */
-export function ThermalBand({ whatsapp }: { whatsapp: string }) {
-  return (
-    <section className="relative overflow-hidden border-y border-line bg-ink-2 py-16">
-      <div className="pointer-events-none absolute -left-20 top-1/2 h-72 w-72 -translate-y-1/2 rounded-full bg-frost/15 blur-[100px]" />
-      <Snowflake className="pointer-events-none absolute -right-10 top-1/2 size-64 -translate-y-1/2 text-frost/10" strokeWidth={1} />
-      <div className="container-x relative flex flex-wrap items-center justify-between gap-8">
+    <section className="bg-char py-24 text-white">
+      <div className="container-x flex flex-wrap items-end justify-between gap-10">
         <div className="max-w-2xl">
-          <p className="text-xs font-bold tracking-[0.22em] text-frost uppercase">Carrocerías térmicas</p>
-          <h2 className="h-display mt-3 text-4xl sm:text-6xl">
-            ¿Necesitás un <span className="text-frost">furgón térmico</span>?
+          <h2 className="h-display text-4xl sm:text-6xl">
+            <RevealLines lines={["Contanos qué", "transportás"]} />
           </h2>
-          <p className="mt-3 text-muted">Furgones isotérmicos a medida para lácteos, carnes, alimentos y reparto refrigerado.</p>
+          <Reveal delay={0.15}>
+            <p className="mt-5 max-w-md text-white/65">Con la marca y modelo del chasis y las medidas que buscás, te preparamos una propuesta a medida.</p>
+          </Reveal>
         </div>
-        <div className="flex flex-wrap gap-3">
-          <Link href="/termicos" className="btn-brand group">
-            Conocé los térmicos <ArrowRight className="size-4 transition group-hover:translate-x-1" />
-          </Link>
-          <a href={whatsapp} target="_blank" rel="noopener" className="btn-ghost">
-            <WhatsAppIcon className="size-4" /> Cotizar
-          </a>
-        </div>
+        <Reveal delay={0.2}>
+          <a href={whatsapp} target="_blank" rel="noopener" className="btn-yellow">Cotizar por WhatsApp</a>
+        </Reveal>
       </div>
     </section>
   );

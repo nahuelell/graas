@@ -15,15 +15,14 @@ export default async function UsadosPage() {
   return (
     <>
       <PageBanner
-        kicker="Usados"
-        title={["Unidades", "usadas"]}
+        title={["Usados"]}
         text="Carrocerías usadas y tomadas en parte de pago, revisadas en nuestro taller y listas para trabajar."
       />
-      <section className="container-x py-16 sm:py-20">
+      <section className="container-x pb-28">
         {usados.length ? (
           <FilterGrid kind="usados" items={usados} />
         ) : (
-          <p className="text-muted">Por ahora no hay unidades usadas publicadas. Escribinos y te avisamos cuando ingrese una.</p>
+          <p className="text-steel">Por ahora no hay unidades usadas publicadas. Escribinos y te avisamos cuando ingrese una.</p>
         )}
       </section>
     </>

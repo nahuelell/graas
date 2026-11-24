@@ -19,7 +19,7 @@ values (
   'https://www.facebook.com/carroceriasgraas/',
   'Carrocerías Graas, Santiago Eichhorn 235, Crespo, Entre Ríos',
   E'Carrocerías\nhechas para\ntrabajar.',
-  'Fábrica en Crespo · Entre Ríos · Desde 1985',
+  'Fábrica de carrocerías en Crespo, Entre Ríos, desde 1985',
   'Furgones térmicos y carrocerías metálicas a medida de tu camión. Diseño, fabricación, homologación y service en un solo lugar.',
   'Somos una empresa familiar que desde 1985 trabaja en el sector metalúrgico, fabricando carrocerías para camiones, acoplados y furgones térmicos. Nacimos en Crespo como "Metalúrgica Santa María" y desde 1994 estamos en el Parque Industrial, sobre la Ruta Nacional 12.'
 )
