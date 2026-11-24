@@ -51,7 +51,7 @@ export default async function TermicosPage() {
 
       <section className="pb-20 pt-36 sm:pt-44">
         <div className="container-x">
-          <h1 className="h-display text-5xl sm:text-7xl lg:text-[5.5rem]">
+          <h1 className="h-display text-4xl sm:text-6xl lg:text-[4.4rem]">
             <RevealLines lines={["Furgones térmicos", "a medida"]} />
           </h1>
           <div className="mt-8 grid gap-8 md:grid-cols-[1fr_auto] md:items-end">
@@ -81,7 +81,7 @@ export default async function TermicosPage() {
       {thermal.length > 0 && (
         <section className="py-24 sm:py-28">
           <div className="container-x">
-            <h2 className="h-display text-4xl sm:text-5xl">
+            <h2 className="h-display text-3xl sm:text-4xl">
               <RevealLines lines={["Modelos"]} />
             </h2>
             <div className="mt-12 grid gap-x-6 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
@@ -99,7 +99,7 @@ export default async function TermicosPage() {
       <section id="consulta" className="py-24 sm:py-32">
         <div className="container-x grid gap-12 lg:grid-cols-[1fr_1.3fr] lg:gap-24">
           <div>
-            <h2 className="h-display text-4xl sm:text-5xl">
+            <h2 className="h-display text-3xl sm:text-4xl">
               <RevealLines lines={["Pedí un", "presupuesto"]} />
             </h2>
             <Reveal delay={0.15}>

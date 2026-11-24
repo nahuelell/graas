@@ -8,7 +8,7 @@ import { Reveal, RevealImage, RevealLines } from "./reveal";
 /** Bloque del inicio: foto + texto que lleva a /termicos. */
 export function ThermalSplit({ image, whatsapp }: { image: MediaAsset | null; whatsapp: string }) {
   return (
-    <section className="bg-white py-24 sm:py-32">
+    <section className="bg-surface py-24 sm:py-32">
       <div className="container-x grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
         {image ? (
           <RevealImage className="relative aspect-[5/4] overflow-hidden rounded-[4px] bg-paper-2">
@@ -18,7 +18,7 @@ export function ThermalSplit({ image, whatsapp }: { image: MediaAsset | null; wh
           <div className="aspect-[5/4] rounded-[4px] bg-paper-2" />
         )}
         <div>
-          <h2 className="h-display text-4xl sm:text-5xl lg:text-[3.4rem]">
+          <h2 className="h-display text-3xl sm:text-4xl lg:text-[2.9rem]">
             <RevealLines lines={["Furgones térmicos", "a medida"]} />
           </h2>
           <Reveal delay={0.15}>
@@ -63,7 +63,7 @@ export function ThermalFeatures() {
 /** Rubros. */
 export function ThermalUses() {
   return (
-    <section className="bg-white py-24 sm:py-28">
+    <section className="bg-surface py-24 sm:py-28">
       <div className="container-x">
         <SectionHeading title={["Para cada rubro"]} />
         <div className="mt-12 grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
@@ -102,7 +102,7 @@ export function ThermalProcess() {
 /** Preguntas frecuentes (también van como datos estructurados para Google). */
 export function ThermalFaq() {
   return (
-    <section className="bg-white py-24 sm:py-28">
+    <section className="bg-surface py-24 sm:py-28">
       <div className="container-x grid gap-12 lg:grid-cols-[1fr_1.6fr] lg:gap-20">
         <SectionHeading title={["Preguntas", "frecuentes"]} />
         <div className="border-t border-rule">
@@ -111,8 +111,8 @@ export function ThermalFaq() {
               <summary className="flex cursor-pointer list-none items-center justify-between gap-6 py-5 text-lg font-semibold [&::-webkit-details-marker]:hidden">
                 {f.q}
                 <span className="relative size-4 shrink-0" aria-hidden>
-                  <span className="absolute left-0 top-1/2 h-[2px] w-4 -translate-y-1/2 bg-char" />
-                  <span className="absolute left-1/2 top-0 h-4 w-[2px] -translate-x-1/2 bg-char transition-transform duration-300 group-open:scale-y-0" />
+                  <span className="absolute left-0 top-1/2 h-[2px] w-4 -translate-y-1/2 bg-brand" />
+                  <span className="absolute left-1/2 top-0 h-4 w-[2px] -translate-x-1/2 bg-brand transition-transform duration-300 group-open:scale-y-0" />
                 </span>
               </summary>
               <p className="max-w-2xl pb-6 leading-relaxed text-steel">{f.a}</p>
@@ -124,21 +124,21 @@ export function ThermalFaq() {
   );
 }
 
-/** Cierre con llamado a la acción. */
+/** Cierre con llamado a la acción (banda amarilla, como en la primera versión). */
 export function ThermalCta({ whatsapp }: { whatsapp: string }) {
   return (
-    <section className="bg-char py-24 text-white">
+    <section className="bg-brand py-24 text-ink">
       <div className="container-x flex flex-wrap items-end justify-between gap-10">
         <div className="max-w-2xl">
-          <h2 className="h-display text-4xl sm:text-6xl">
+          <h2 className="h-display text-3xl sm:text-5xl">
             <RevealLines lines={["Contanos qué", "transportás"]} />
           </h2>
           <Reveal delay={0.15}>
-            <p className="mt-5 max-w-md text-white/65">Con la marca y modelo del chasis y las medidas que buscás, te preparamos una propuesta a medida.</p>
+            <p className="mt-5 max-w-md font-medium text-ink/70">Con la marca y modelo del chasis y las medidas que buscás, te preparamos una propuesta a medida.</p>
           </Reveal>
         </div>
         <Reveal delay={0.2}>
-          <a href={whatsapp} target="_blank" rel="noopener" className="btn-yellow">Cotizar por WhatsApp</a>
+          <a href={whatsapp} target="_blank" rel="noopener" className="btn bg-ink text-brand hover:bg-white hover:text-ink">Cotizar por WhatsApp</a>
         </Reveal>
       </div>
     </section>

@@ -54,7 +54,7 @@ export function Hero({
   const lines = title.split(/\n+/).map((l) => l.trim()).filter(Boolean);
 
   return (
-    <section ref={ref} className="relative isolate flex min-h-[100svh] flex-col justify-end overflow-hidden bg-char text-white">
+    <section ref={ref} className="relative isolate flex min-h-[100svh] flex-col justify-end overflow-hidden bg-ink text-white">
       {/* Fotos */}
       <motion.div
         className="absolute inset-0 -z-10"
@@ -90,7 +90,7 @@ export function Hero({
       <div className="container-x pb-10 pt-40">
         {kicker && (
           <motion.p
-            className="mb-5 text-[0.95rem] text-white/75"
+            className="label mb-5 text-[0.8rem]"
             initial={{ opacity: 0, y: 10 }}
             animate={show ? { opacity: 1, y: 0 } : undefined}
             transition={{ duration: 1, delay: 0.5, ease: EASE }}
@@ -98,7 +98,7 @@ export function Hero({
             {kicker}
           </motion.p>
         )}
-        <h1 className="h-display max-w-5xl text-[13vw] sm:text-7xl lg:text-[6.6rem]">
+        <h1 className="h-display max-w-5xl text-[11vw] sm:text-6xl lg:text-[5.4rem]">
           {lines.map((line, i) => (
             <span key={i} className="-mt-[0.12em] block overflow-hidden pb-[0.04em] pt-[0.12em]">
               <motion.span
@@ -154,7 +154,7 @@ export function Hero({
                       {i === index && (
                         <motion.span
                           key={`${index}-${paused}`}
-                          className="absolute inset-y-0 left-0 bg-white"
+                          className="absolute inset-y-0 left-0 bg-brand"
                           initial={{ width: paused || reduce ? "100%" : "0%" }}
                           animate={{ width: "100%" }}
                           transition={{ duration: paused || reduce ? 0 : INTERVAL / 1000, ease: "linear" }}

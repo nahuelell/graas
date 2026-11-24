@@ -22,7 +22,7 @@ export function SectionHeading({
   return (
     <div className={cn("flex flex-wrap content-start items-end justify-between gap-x-10 gap-y-6 self-start", className)}>
       <div className="max-w-2xl">
-        <h2 className="h-display text-4xl sm:text-5xl lg:text-[3.6rem]">
+        <h2 className="h-display text-3xl sm:text-4xl lg:text-[2.9rem]">
           <RevealLines lines={title} />
         </h2>
         {text && (
@@ -45,7 +45,7 @@ export function Cover({ images, category, title, sizes, className }: { images: M
         <MediaImage asset={first} alt={first.alt || title} fill sizes={sizes} className="object-cover transition-transform duration-[1.2s] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.03]" />
       ) : (
         <div className="absolute inset-0 grid place-items-center">
-          <TruckIcon kind={getCategory(category).icon} className="w-2/5 text-steel/70" strokeWidth={1.2} wheelFill="var(--color-paper-2)" />
+          <TruckIcon kind={getCategory(category).icon} className="w-2/5 text-brand/80" strokeWidth={1.2} wheelFill="var(--color-paper-2)" />
         </div>
       )}
     </RevealImage>
@@ -57,7 +57,7 @@ export function ProductCard({ product }: { product: Product }) {
     <Link href={`/carrocerias/${product.slug}`} className="group block">
       <Cover images={product.images} category={product.category} title={product.title} sizes="(min-width:1024px) 30vw, (min-width:640px) 50vw, 100vw" className="aspect-[4/3]" />
       <Reveal className="mt-4">
-        <p className="text-sm text-steel">{getCategory(product.category).name}</p>
+        <p className="label">{getCategory(product.category).name}</p>
         <h3 className="mt-0.5 text-xl font-semibold">
           <span className="bg-[linear-gradient(var(--color-brand),var(--color-brand))] bg-[length:0%_2px] bg-left-bottom bg-no-repeat pb-0.5 transition-[background-size] duration-500 group-hover:bg-[length:100%_2px]">
             {product.title}
@@ -130,7 +130,7 @@ export function PageBanner({ title, text }: { title: string[]; text?: string }) 
   return (
     <section className="pb-14 pt-36 sm:pt-44">
       <div className="container-x">
-        <h1 className="h-display text-5xl sm:text-7xl lg:text-[5.5rem]">
+        <h1 className="h-display text-4xl sm:text-6xl lg:text-[4.4rem]">
           <RevealLines lines={title} />
         </h1>
         {text && (

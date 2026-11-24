@@ -65,7 +65,7 @@ export function ContactForm({ defaultInterest = "", source = "home" }: { default
           <textarea name="message" rows={3} className={field + " resize-none"} placeholder="Marca y modelo del chasis, medidas, uso" />
         </label>
 
-        {state && !state.ok && <p className="text-sm font-medium text-red-700">{state.message}</p>}
+        {state && !state.ok && <p className="text-sm font-medium text-red-400">{state.message}</p>}
 
         <button type="submit" disabled={pending} className="btn-dark disabled:opacity-60">
           {pending && <LoaderCircle className="size-4 animate-spin" />}

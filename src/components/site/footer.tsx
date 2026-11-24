@@ -7,12 +7,12 @@ import { FacebookIcon, InstagramIcon } from "./icons";
 
 export function Footer({ settings }: { settings: Settings }) {
   return (
-    <footer className="bg-char text-white">
+    <footer className="border-t border-rule bg-ink-2 text-white">
       <div className="container-x grid gap-12 py-20 md:grid-cols-[1.5fr_1fr_1fr]">
         <div>
           <div className="flex items-center gap-3">
             <Image src="/brand/logo-graas.png" alt="" width={40} height={40} className="rounded-full" />
-            <span className="wide text-lg font-bold">Carrocerías Graas</span>
+            <span className="leading-tight"><span className="wide block text-lg font-bold uppercase">Graas</span><span className="label block">Carrocerías</span></span>
           </div>
           <p className="mt-5 max-w-sm leading-relaxed text-white/60">
             Fábrica de carrocerías y furgones térmicos desde 1985, en el Parque Industrial de Crespo, Entre Ríos.

@@ -38,7 +38,7 @@ export default async function HomePage() {
       <section className="py-24 sm:py-32">
         <div className="container-x grid gap-14 lg:grid-cols-[1.6fr_1fr] lg:gap-24">
           <Reveal>
-            <p className="wide text-2xl font-medium leading-snug sm:text-[2.1rem] sm:leading-[1.25]">
+            <p className="text-2xl font-medium leading-snug sm:text-[2rem] sm:leading-[1.3]">
               Desde 1985 fabricamos carrocerías a medida en el Parque Industrial de Crespo. Furgones térmicos, carrocerías metálicas y reparaciones, con taller propio y trato directo.
             </p>
           </Reveal>
@@ -90,7 +90,7 @@ export default async function HomePage() {
 
       {/* Trabajos entregados */}
       {trabajos.length > 0 && (
-        <section className="overflow-hidden bg-white py-24 sm:py-32">
+        <section className="overflow-hidden bg-surface py-24 sm:py-32">
           <div className="container-x">
             <SectionHeading title={["Unidades entregadas"]} action={<Link href="/trabajos" className="link-line">Ver todas</Link>} />
           </div>
@@ -123,13 +123,13 @@ export default async function HomePage() {
       </section>
 
       {/* Nosotros */}
-      <section id="nosotros" className="bg-white py-24 sm:py-32">
+      <section id="nosotros" className="bg-surface py-24 sm:py-32">
         <div className="container-x grid items-start gap-14 lg:grid-cols-2 lg:gap-20">
           <RevealImage className="relative aspect-[4/5] overflow-hidden rounded-[4px] bg-paper-2">
             <Image src="/demo/taller.jpg" alt="Soldadura en el taller de Carrocerías Graas" fill sizes="(min-width:1024px) 45vw, 100vw" className="object-cover" />
           </RevealImage>
           <div className="lg:pt-10">
-            <h2 className="h-display text-4xl sm:text-5xl lg:text-[3.4rem]">
+            <h2 className="h-display text-3xl sm:text-4xl lg:text-[2.9rem]">
               <RevealLines lines={["Una empresa", "familiar"]} />
             </h2>
             <Reveal delay={0.15}>
@@ -155,7 +155,7 @@ export default async function HomePage() {
       <section id="contacto" className="py-24 sm:py-32">
         <div className="container-x grid gap-16 lg:grid-cols-[1fr_1.3fr] lg:gap-24">
           <div>
-            <h2 className="h-display text-4xl sm:text-5xl lg:text-[3.4rem]">
+            <h2 className="h-display text-3xl sm:text-4xl lg:text-[2.9rem]">
               <RevealLines lines={["Hablemos de", "tu próxima unidad"]} />
             </h2>
             <Reveal delay={0.15}>

@@ -33,7 +33,7 @@ export function Gallery({ images, title, fallbackKind }: { images: MediaAsset[];
   if (!total) {
     return (
       <div className="grid aspect-[4/3] place-items-center rounded-[4px] bg-paper-2">
-        <TruckIcon kind={fallbackKind} className="w-2/5 text-steel/70" strokeWidth={1.2} wheelFill="var(--color-paper-2)" />
+        <TruckIcon kind={fallbackKind} className="w-2/5 text-brand/80" strokeWidth={1.2} wheelFill="var(--color-paper-2)" />
       </div>
     );
   }
@@ -55,7 +55,7 @@ export function Gallery({ images, title, fallbackKind }: { images: MediaAsset[];
               <button
                 key={img.public_id + i}
                 onClick={() => setIndex(i)}
-                className={cn("relative size-16 shrink-0 overflow-hidden rounded-[3px] transition-opacity", i === index ? "opacity-100 ring-2 ring-char ring-offset-2 ring-offset-paper" : "opacity-50 hover:opacity-100")}
+                className={cn("relative size-16 shrink-0 overflow-hidden rounded-[3px] transition-opacity", i === index ? "opacity-100 ring-2 ring-brand ring-offset-2 ring-offset-paper" : "opacity-50 hover:opacity-100")}
                 aria-label={`Foto ${i + 1}`}
               >
                 <MediaImage asset={img} alt="" fill sizes="64px" className="object-cover" />
@@ -68,7 +68,7 @@ export function Gallery({ images, title, fallbackKind }: { images: MediaAsset[];
 
       <AnimatePresence>
         {open && (
-          <motion.div className="fixed inset-0 z-[90] flex items-center justify-center bg-char/95" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setOpen(false)}>
+          <motion.div className="fixed inset-0 z-[90] flex items-center justify-center bg-ink/95" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setOpen(false)}>
             <div className="relative h-[82vh] w-[92vw]" onClick={(e) => e.stopPropagation()}>
               <MediaImage asset={current} alt={current.alt || title} fill sizes="92vw" className="object-contain" />
             </div>

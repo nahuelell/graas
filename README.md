@@ -147,8 +147,8 @@ scripts/
 
 ### Personalizar
 
-- **Colores y tipografía**: `src/app/globals.css` (bloque `@theme`). Sitio público claro (papel gris, texto carbón, amarillo Graas solo en la acción principal); panel oscuro. Una sola familia, Archivo, con títulos en ancho extendido.
-- **Intro de apertura**: `src/components/site/intro.tsx`. Logo sobre fondo claro que se levanta (≈1,4 s). Se ve una vez por sesión, se puede saltar y se desactiva si el usuario prefiere menos movimiento.
+- **Colores y tipografía**: `src/app/globals.css` (bloque `@theme`). Negro y amarillo Graas, como el logo. Tipografía Saira (variable): títulos en mayúsculas y ancho extendido como "GRAAS", etiquetas semicondensadas en amarillo como "CARROCERÍAS".
+- **Intro de apertura**: `src/components/site/intro.tsx`. Logo sobre fondo negro que se levanta (≈1,4 s). Se ve una vez por sesión, se puede saltar y se desactiva si el usuario prefiere menos movimiento.
 - **Portada**: carrusel de hasta 10 fotos y título grande editables desde **Ajustes del sitio**. La primera foto es la que aparece siempre al entrar (recomendado: un furgón térmico); las demás pasan solas cada 6 segundos.
 - **Textos de térmicos**: `src/lib/termicos.ts`. Validar con Graas antes de publicar (materiales, alcance del equipo de frío, etc.).
 

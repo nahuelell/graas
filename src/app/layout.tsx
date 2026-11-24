@@ -3,9 +3,9 @@ import localFont from "next/font/local";
 import { config } from "@/lib/config";
 import "./globals.css";
 
-const archivo = localFont({
-  src: "../fonts/Archivo-Variable.ttf",
-  variable: "--font-archivo",
+const saira = localFont({
+  src: "../fonts/Saira-Variable.ttf",
+  variable: "--font-saira",
   weight: "100 900",
   display: "swap",
   declarations: [{ prop: "font-stretch", value: "62% 125%" }],
@@ -44,12 +44,12 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#f3f4f4",
+  themeColor: "#0d0d0f",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="es-AR" className={archivo.variable}>
+    <html lang="es-AR" className={saira.variable}>
       <body>{children}</body>
     </html>
   );

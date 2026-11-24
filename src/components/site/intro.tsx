@@ -71,8 +71,8 @@ export function Intro() {
       >
         <Image src="/brand/logo-graas.png" alt="" width={56} height={56} className="rounded-full" priority />
         <span className="leading-tight">
-          <span className="wide block text-2xl font-bold text-char">Graas</span>
-          <span className="block text-sm text-steel">Carrocerías desde 1985</span>
+          <span className="wide block text-3xl font-bold uppercase text-white">Graas</span>
+          <span className="label block">Carrocerías</span>
         </span>
       </motion.div>
     </motion.div>

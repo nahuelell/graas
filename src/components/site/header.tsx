@@ -44,7 +44,7 @@ export function Header({ whatsapp }: { whatsapp: string }) {
         )}
       >
         <div className="container-x flex items-center justify-between gap-6">
-          <Logo tone={overHero ? "light" : "dark"} size={overHero ? 40 : 34} />
+          <Logo size={overHero ? 40 : 34} />
           <nav className="hidden items-center gap-8 lg:flex" aria-label="Principal">
             {NAV.map((item) => {
               const active = !item.href.includes("#") && pathname.startsWith(item.href);
