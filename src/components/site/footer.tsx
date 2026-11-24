@@ -17,6 +17,9 @@ export function Footer({ settings }: { settings: Settings }) {
           <p className="mt-5 max-w-sm leading-relaxed text-white/60">
             Fábrica de carrocerías y furgones térmicos desde 1985, en el Parque Industrial de Crespo, Entre Ríos.
           </p>
+          <p className="mt-3 max-w-sm text-sm leading-relaxed text-white/45">
+            Trabajamos para Crespo, Paraná, Diamante, Viale, Nogoyá, Victoria, Santa Fe y toda la región.
+          </p>
           <div className="mt-6 flex gap-2">
             {settings.instagram && (
               <a href={settings.instagram} target="_blank" rel="noopener" aria-label="Instagram" className="grid size-10 place-items-center rounded-full border border-white/20 text-white/70 transition-colors hover:border-white hover:text-white">
@@ -58,14 +61,18 @@ export function Footer({ settings }: { settings: Settings }) {
         </div>
       </div>
       <div className="border-t border-white/10">
-        <div className="container-x flex flex-col justify-between gap-2 py-6 text-sm text-white/45 sm:flex-row">
-          <p>© <CurrentYear /> {settings.legal_name ?? settings.company_name}</p>
-          <p>
-            Sitio de{" "}
-            <a href="https://www.lelldigital.com" target="_blank" rel="noopener" className="text-white/70 hover:text-white">
-              Lell Digital
-            </a>
-          </p>
+        <div className="container-x flex flex-col justify-between gap-3 py-6 text-sm text-white/45 md:flex-row md:items-center">
+          <p>© <CurrentYear /> {settings.legal_name ?? settings.company_name}. Todos los derechos reservados.</p>
+          <div className="flex flex-wrap gap-x-6 gap-y-2">
+            <Link href="/terminos" className="hover:text-white">Bases y condiciones</Link>
+            <Link href="/privacidad" className="hover:text-white">Política de privacidad</Link>
+            <span>
+              Desarrollado por{" "}
+              <a href="https://www.lelldigital.com" target="_blank" rel="noopener" className="font-semibold text-white/75 hover:text-brand">
+                Lell Digital
+              </a>
+            </span>
+          </div>
         </div>
       </div>
     </footer>

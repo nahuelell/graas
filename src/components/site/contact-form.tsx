@@ -1,6 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion } from "motion/react";
+import Link from "next/link";
 import { useActionState } from "react";
 import { LoaderCircle } from "lucide-react";
 import { sendContact, type ContactState } from "@/app/(site)/actions";
@@ -66,6 +67,11 @@ export function ContactForm({ defaultInterest = "", source = "home" }: { default
         </label>
 
         {state && !state.ok && <p className="text-sm font-medium text-red-400">{state.message}</p>}
+
+        <p className="text-xs leading-relaxed text-steel">
+          Al enviar aceptás que usemos tus datos solo para responder tu consulta, según nuestra{" "}
+          <Link href="/privacidad" className="underline underline-offset-2 hover:text-brand">política de privacidad</Link>.
+        </p>
 
         <button type="submit" disabled={pending} className="btn-dark disabled:opacity-60">
           {pending && <LoaderCircle className="size-4 animate-spin" />}

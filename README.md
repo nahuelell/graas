@@ -71,6 +71,8 @@ Copiá `.env.example` como `.env.local` y completalo:
 | `ADMIN_USER_DOMAIN` | Dominio que se agrega al usuario del login |
 | `NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME` / `CLOUDINARY_API_KEY` / `CLOUDINARY_API_SECRET` | Subida de imágenes |
 | `CLOUDINARY_FOLDER` | Carpeta raíz en Cloudinary (por defecto `graas`) |
+| `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION` | Opcional. Código de verificación de Google Search Console |
+| `NEXT_PUBLIC_GA_ID` | Opcional. ID de Google Analytics 4 |
 
 ---
 
@@ -85,22 +87,28 @@ Cada vez que se guarda algo en el panel, la web se actualiza al instante (no hac
 
 ---
 
-## 6. SEO local: checklist de lanzamiento
+## 6. SEO
 
-Ya incluido en el código:
-- Títulos y descripciones únicos por página, URLs limpias, `sitemap.xml` y `robots.txt` automáticos.
-- Datos estructurados `LocalBusiness` (empresa, dirección, zona de influencia) y `Product` en cada carrocería y usado.
-- Una página por modelo y por usado, campos de "Título y descripción para Google" editables en el catálogo.
-- Imágenes optimizadas (WebP/AVIF automático), sitio rápido y adaptado al celular.
+### Ya incluido (funciona aunque Supabase y Cloudinary todavía no estén conectados)
+- **Títulos, descripciones y URL canónica únicos** en cada página, con la palabra clave y la zona ("en Entre Ríos", "en Crespo").
+- **`/sitemap.xml`** automático (incluye cada carrocería y cada usado, con sus fotos) y **`/robots.txt`** (bloquea `/admin` y `/api`).
+- **Datos estructurados (schema.org)**:
+  - `AutoBodyShop` + `WebSite` en todo el sitio: nombre, dirección, teléfono, zona de influencia, redes y servicios.
+  - `BreadcrumbList` (migas de pan) en todas las páginas internas.
+  - `ItemList` en catálogo y usados, `Service` en cada carrocería, `FAQPage` en `/termicos`.
+  - `Product` con precio en los usados que muestran precio (Google exige precio para mostrarlos como producto).
+- **Imagen para compartir** en WhatsApp y redes generada automáticamente con el título de cada página (`/og?title=...`). Si el ítem tiene foto, se usa la foto.
+- **Velocidad**: imágenes optimizadas (WebP/AVIF), tipografía local sin bloqueos, páginas públicas pre-generadas.
+- **Un solo H1 por página**, textos alternativos en las fotos, `lang="es-AR"`, manifest e íconos.
+- **URL del sitio**: usa `NEXT_PUBLIC_SITE_URL`; si no está cargada, toma el dominio de producción de Vercel o, por defecto, `https://hugograas.com.ar`.
 
-A hacer al publicar:
-1. **Google Search Console**: verificar el dominio y enviar `https://hugograas.com.ar/sitemap.xml`.
-2. **Google Business Profile**: reclamar/optimizar la ficha con el **mismo** nombre, dirección y teléfono que la web, categorías ("Fabricante de carrocerías", "Taller de carrocería"), fotos y horario.
-3. Unificar datos en Facebook, Instagram, Páginas Amarillas y Foursquare (hoy hay teléfonos distintos).
-4. Pedir reseñas en Google a clientes que retiran unidades.
-5. Reemplazar las imágenes de ejemplo (`public/demo/`) y el logo (`public/brand/logo-graas.png`, `src/app/icon.png`) por los originales en alta calidad.
-
----
+### Al publicar
+1. **Google Search Console** → Agregar propiedad → método **Etiqueta HTML** → copiá el valor de `content` en la variable `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION` (Vercel → Settings → Environment Variables) y volvé a publicar. Verificá y enviá `https://hugograas.com.ar/sitemap.xml`. (También sirve el método por **registro DNS**, que no necesita la variable.)
+2. **Google Business Profile**: reclamar/optimizar la ficha con el **mismo** nombre, dirección y teléfono que la web, categoría principal "Fabricante de carrocerías", fotos reales y horario.
+3. **Google Analytics 4** (opcional): cargá el ID `G-XXXXXXXXXX` en `NEXT_PUBLIC_GA_ID`. Mide visitas y, además, cada clic a WhatsApp, teléfono y email como evento.
+4. Unificar nombre, dirección y teléfono en Facebook, Instagram, Páginas Amarillas y Foursquare (hoy hay datos distintos).
+5. Pedir reseñas en Google a cada cliente que retira una unidad.
+6. Reemplazar las imágenes de ejemplo (`public/demo/`) y cargar fotos reales desde el panel: es lo que más va a mejorar la presencia en Google Imágenes.
 
 ## 7. El panel (`/admin`)
 

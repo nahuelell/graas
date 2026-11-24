@@ -9,6 +9,7 @@ import { config } from "@/lib/config";
 import { getProducts, getSettings } from "@/lib/data";
 import { TERMICOS_FAQ } from "@/lib/termicos";
 import { whatsappLink } from "@/lib/utils";
+import { breadcrumbJsonLd, ogImage } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "Furgones térmicos e isotérmicos a medida en Entre Ríos",
@@ -18,6 +19,8 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Furgones térmicos a medida | Carrocerías Graas",
     description: "Furgones isotérmicos fabricados a medida de tu chasis en Crespo, Entre Ríos.",
+    url: "/termicos",
+    images: [ogImage("Furgones térmicos a medida", "Lácteos, carnes, alimentos y reparto refrigerado")],
   },
 };
 
@@ -30,6 +33,7 @@ export default async function TermicosPage() {
 
   return (
     <>
+      <JsonLd data={breadcrumbJsonLd([{ name: "Furgones térmicos", path: "/termicos" }])} />
       <JsonLd
         data={{
           "@context": "https://schema.org",

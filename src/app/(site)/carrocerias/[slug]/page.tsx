@@ -8,6 +8,7 @@ import { config } from "@/lib/config";
 import { getProduct, getProducts, getSettings } from "@/lib/data";
 import { mediaUrl } from "@/lib/cloudinary";
 import { whatsappLink } from "@/lib/utils";
+import { abs, AREAS, breadcrumbJsonLd, ogImage } from "@/lib/seo";
 
 type Params = { params: Promise<{ slug: string }> };
 
@@ -22,12 +23,12 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   if (!p) return { title: "Carrocería no encontrada" };
   const title = p.seo_title || `Carrocería ${p.title} a medida en Entre Ríos`;
   const description = p.seo_description || p.summary || `Carrocería ${p.title} fabricada a medida en Crespo, Entre Ríos.`;
-  const image = p.images[0] ? mediaUrl(p.images[0], 1200) : "/demo/truck.jpg";
+  const image = p.images[0] ? { url: mediaUrl(p.images[0], 1200), alt: p.title } : ogImage(`Carrocería ${p.title}`, "A medida, en Crespo, Entre Ríos");
   return {
     title,
     description,
     alternates: { canonical: `/carrocerias/${p.slug}` },
-    openGraph: { title, description, images: [{ url: image }] },
+    openGraph: { title, description, url: `/carrocerias/${p.slug}`, images: [image] },
   };
 }
 
@@ -38,16 +39,17 @@ async function ProductDetail({ params }: Params) {
   const cat = getCategory(p.category);
   return (
     <>
+      <JsonLd data={breadcrumbJsonLd([{ name: "Carrocerías", path: "/carrocerias" }, { name: p.title, path: `/carrocerias/${p.slug}` }])} />
       <JsonLd
         data={{
           "@context": "https://schema.org",
-          "@type": "Product",
-          name: `Carrocería ${p.title}`,
+          "@type": "Service",
+          name: `Carrocería ${p.title} a medida`,
+          serviceType: `Fabricación de carrocería ${cat.name.toLowerCase()}`,
           description: p.summary ?? undefined,
-          category: cat.name,
-          image: p.images.map((i) => mediaUrl(i, 1200)).map((u) => (u.startsWith("http") ? u : config.siteUrl + u)),
-          brand: { "@type": "Brand", name: "Graas" },
-          manufacturer: { "@id": `${config.siteUrl}/#business` },
+          image: p.images.length ? p.images.map((i) => abs(mediaUrl(i, 1200))) : undefined,
+          provider: { "@id": `${config.siteUrl}/#business` },
+          areaServed: AREAS.map((name) => ({ "@type": "City", name })),
           url: `${config.siteUrl}/carrocerias/${p.slug}`,
         }}
       />
