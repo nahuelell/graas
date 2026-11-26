@@ -37,6 +37,7 @@ export const demoSettings: Settings = {
   hero_images: [img("truck", "Camión con carrocería Graas"), img("taller", "Soldadura en el taller de Graas")],
   about:
     'Somos una empresa familiar que desde 1985 trabaja en el sector metalúrgico, fabricando carrocerías para camiones, acoplados y furgones térmicos. Nacimos en Crespo como "Metalúrgica Santa María" y desde 1994 estamos en el Parque Industrial, sobre la Ruta Nacional 12.',
+  notify_email: null,
   updated_at: now,
 };
 

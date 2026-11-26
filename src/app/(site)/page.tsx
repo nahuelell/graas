@@ -197,6 +197,17 @@ export default async function HomePage() {
           </Reveal>
         </div>
       </section>
+
+      {/* Trabajá con nosotros */}
+      <section className="border-t border-rule bg-surface py-16">
+        <div className="container-x flex flex-wrap items-center justify-between gap-8">
+          <div>
+            <h2 className="h-display text-2xl sm:text-3xl">Trabajá con nosotros</h2>
+            <p className="mt-2 text-steel">Dejanos tus datos y tu CV para próximas búsquedas.</p>
+          </div>
+          <Link href="/trabaja-con-nosotros" className="btn-line">Enviar mi CV</Link>
+        </div>
+      </section>
     </>
   );
 }

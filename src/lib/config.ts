@@ -18,6 +18,8 @@ export const config = {
 
 /** true cuando hay credenciales reales de Supabase. Sin ellas el sitio corre con datos de ejemplo. */
 export const isSupabaseConfigured =
-  supabaseUrl.startsWith("https://") && !supabaseUrl.includes("xxxx") && supabaseAnonKey.length > 40;
+  supabaseUrl.startsWith("https://") &&
+  !supabaseUrl.includes("xxxx") &&
+  (supabaseAnonKey.startsWith("sb_publishable_") || supabaseAnonKey.length > 40); // acepta la clave nueva (publishable) o la anterior (anon)
 
 export const isCloudinaryConfigured = config.cloudName.length > 0;

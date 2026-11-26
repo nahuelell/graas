@@ -41,6 +41,7 @@ export function Footer({ settings }: { settings: Settings }) {
               ["/termicos", "Furgones térmicos"],
               ["/usados", "Usados"],
               ["/trabajos", "Trabajos entregados"],
+              ["/trabaja-con-nosotros", "Trabajá con nosotros"],
               ["/#contacto", "Contacto"],
             ].map(([href, label]) => (
               <li key={href}>

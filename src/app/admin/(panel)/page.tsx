@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, Hammer, Inbox, Package, Plus, Truck } from "lucide-react";
+import { ArrowRight, Briefcase, Hammer, Inbox, Package, Plus, Truck } from "lucide-react";
 import { PageTitle } from "@/components/admin/ui";
 import { adminCounts, adminLeads } from "@/lib/admin-data";
 import { requireAdmin } from "@/lib/auth";
@@ -14,6 +14,7 @@ export default async function DashboardPage() {
     { label: "Trabajos entregados", value: counts.trabajos, sub: "en la galería", href: "/admin/trabajos", icon: Hammer },
     { label: "Modelos en catálogo", value: counts.products, sub: "carrocerías nuevas", href: "/admin/catalogo", icon: Package },
     { label: "Consultas nuevas", value: counts.leadsNew, sub: "sin leer", href: "/admin/consultas", icon: Inbox },
+    { label: "Postulaciones nuevas", value: counts.appsNew, sub: "CV sin revisar", href: "/admin/postulaciones", icon: Briefcase },
   ];
 
   return (
@@ -37,7 +38,7 @@ export default async function DashboardPage() {
         </Link>
       </div>
 
-      <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
         {cards.map(({ label, value, sub, href, icon: Icon }) => (
           <Link key={href} href={href} className="card group p-5 transition hover:border-brand/60">
             <Icon className="size-5 text-brand" />

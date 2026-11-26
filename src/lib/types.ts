@@ -81,7 +81,24 @@ export type Settings = {
   hero_title: string | null;
   hero_images: MediaAsset[];
   about: string | null;
+  notify_email: string | null;
   updated_at: string;
+};
+
+export type Application = {
+  id: string;
+  name: string;
+  phone: string | null;
+  email: string | null;
+  city: string | null;
+  position: string | null;
+  message: string | null;
+  cv_path: string | null;
+  cv_name: string | null;
+  cv_size: number | null;
+  cv_type: string | null;
+  is_read: boolean;
+  created_at: string;
 };
 
 export type Lead = {

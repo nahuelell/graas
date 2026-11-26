@@ -10,7 +10,8 @@ export async function proxy(request: NextRequest) {
   const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "";
   const isLogin = request.nextUrl.pathname.startsWith("/admin/login");
 
-  if (!url.startsWith("https://") || key.length < 40) {
+  const validKey = key.startsWith("sb_publishable_") || key.length > 40;
+  if (!url.startsWith("https://") || !validKey) {
     // Sin Supabase configurado: solo se muestra la pantalla de login con el aviso.
     if (isLogin) return NextResponse.next();
     return NextResponse.redirect(new URL("/admin/login", request.url));

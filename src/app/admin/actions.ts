@@ -223,6 +223,7 @@ export async function saveSettings(_prev: FormState, f: FormData): Promise<FormS
     hero_kicker: strOrNull(f, "hero_kicker"),
     hero_subtitle: strOrNull(f, "hero_subtitle"),
     about: strOrNull(f, "about"),
+    notify_email: strOrNull(f, "notify_email"),
     hero_images: heroImages,
   };
   const { error } = await supabase.from("settings").upsert(payload);
@@ -243,4 +244,28 @@ export async function deleteLead(id: string) {
   await requireAdmin();
   const supabase = await createSessionClient();
   await supabase.from("leads").delete().eq("id", id);
+}
+
+// ── Postulaciones ────────────────────────────────────────────────────────────
+export async function markApplication(id: string, is_read: boolean) {
+  await requireAdmin();
+  const supabase = await createSessionClient();
+  await supabase.from("applications").update({ is_read }).eq("id", id);
+}
+
+export async function deleteApplication(id: string) {
+  await requireAdmin();
+  const supabase = await createSessionClient();
+  const { data } = await supabase.from("applications").select("cv_path").eq("id", id).maybeSingle();
+  if (data?.cv_path) await supabase.storage.from("cvs").remove([data.cv_path]);
+  await supabase.from("applications").delete().eq("id", id);
+}
+
+/** Link temporal (2 minutos) para ver o descargar un CV del bucket privado. */
+export async function getCvUrl(path: string, download = false) {
+  await requireAdmin();
+  const supabase = await createSessionClient();
+  const { data, error } = await supabase.storage.from("cvs").createSignedUrl(path, 120, download ? { download: true } : undefined);
+  if (error || !data) return null;
+  return data.signedUrl;
 }

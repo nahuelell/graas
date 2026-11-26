@@ -59,6 +59,19 @@ Las imágenes se guardan en carpetas `graas/usados`, `graas/trabajos`, `graas/ca
 
 ---
 
+## 3 bis. Emails de aviso y "Trabajá con nosotros"
+
+Cuando alguien deja una **consulta** o se **postula con su CV**, llega un email al correo que se configura en el panel (**Ajustes del sitio → Email que recibe los avisos**).
+
+1. Ejecutá `supabase/002-trabaja-con-nosotros.sql` en el SQL Editor (si ya habías corrido `setup-completo.sql` antes; el setup completo nuevo ya lo incluye). Crea la tabla de postulaciones y el bucket privado `cvs` (máximo 8 MB, solo PDF o imagen).
+2. Creá una cuenta gratis en https://resend.com → **API Keys → Create API key** y cargala en `RESEND_API_KEY`.
+3. **Remitente**:
+   - Sin dominio verificado, Resend solo deja enviar al email con el que creaste la cuenta. Sirve para empezar si el email de avisos es ese mismo.
+   - Para enviar a cualquier casilla: en Resend → **Domains → Add domain** → `hugograas.com.ar`, cargá los registros DNS que te muestra y poné `RESEND_FROM="Web Graas <web@hugograas.com.ar>"`.
+4. En el panel, **Ajustes del sitio**, poné el Gmail que recibe los avisos.
+
+Los CV se suben directo del navegador a Supabase (en Vercel un formulario no puede recibir más de 4,5 MB) y son privados: el email trae un botón al panel, y desde **Postulaciones** se ven o descargan con un link temporal.
+
 ## 4. Variables de entorno
 
 Copiá `.env.example` como `.env.local` y completalo:
@@ -73,6 +86,8 @@ Copiá `.env.example` como `.env.local` y completalo:
 | `CLOUDINARY_FOLDER` | Carpeta raíz en Cloudinary (por defecto `graas`) |
 | `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION` | Opcional. Código de verificación de Google Search Console |
 | `NEXT_PUBLIC_GA_ID` | Opcional. ID de Google Analytics 4 |
+| `RESEND_API_KEY` | Emails de aviso (consultas y postulaciones) |
+| `RESEND_FROM` | Remitente de los avisos, con dominio verificado en Resend |
 
 ---
 
@@ -119,6 +134,7 @@ Cada vez que se guarda algo en el panel, la web se actualiza al instante (no hac
 | **Trabajos entregados** | Galería de unidades entregadas |
 | **Catálogo** | Modelos de carrocerías nuevas con ficha propia y SEO |
 | **Consultas** | Mensajes del formulario de contacto, con botón para responder por WhatsApp |
+| **Postulaciones** | CVs de “Trabajá con nosotros”: ver, descargar, marcar como revisada, responder por WhatsApp |
 | **Ajustes del sitio** | Fotos de portada (carrusel, máx. 10), título grande y textos del inicio, teléfonos, WhatsApp, email, dirección, horario, redes y texto "Nosotros" |
 
 Detalles:

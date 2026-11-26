@@ -1,7 +1,7 @@
 import "server-only";
 import { requireAdmin } from "./auth";
 import { createSessionClient } from "./supabase/server";
-import type { Lead, Product, Settings, Trabajo, Usado } from "./types";
+import type { Application, Lead, Product, Settings, Trabajo, Usado } from "./types";
 
 /** Lecturas del panel: siempre frescas, siempre con sesión de administrador. */
 
@@ -33,16 +33,24 @@ export async function adminLeads(limit = 200) {
   return (data ?? []) as Lead[];
 }
 
+export async function adminApplications(limit = 300) {
+  await requireAdmin();
+  const supabase = await createSessionClient();
+  const { data } = await supabase.from("applications").select("*").order("created_at", { ascending: false }).limit(limit);
+  return (data ?? []) as Application[];
+}
+
 export async function adminCounts() {
   await requireAdmin();
   const supabase = await createSessionClient();
   const head = { count: "exact" as const, head: true };
-  const [usados, disponibles, products, trabajos, leadsNew] = await Promise.all([
+  const [usados, disponibles, products, trabajos, leadsNew, appsNew] = await Promise.all([
     supabase.from("usados").select("id", head),
     supabase.from("usados").select("id", head).eq("status", "disponible"),
     supabase.from("products").select("id", head),
     supabase.from("trabajos").select("id", head),
     supabase.from("leads").select("id", head).eq("is_read", false),
+    supabase.from("applications").select("id", head).eq("is_read", false),
   ]);
   return {
     usados: usados.count ?? 0,
@@ -50,5 +58,6 @@ export async function adminCounts() {
     products: products.count ?? 0,
     trabajos: trabajos.count ?? 0,
     leadsNew: leadsNew.count ?? 0,
+    appsNew: appsNew.count ?? 0,
   };
 }

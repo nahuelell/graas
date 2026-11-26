@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Hammer, Inbox, LayoutDashboard, LogOut, Package, Settings, Truck, ExternalLink } from "lucide-react";
+import { Briefcase, Hammer, Inbox, LayoutDashboard, LogOut, Package, Settings, Truck, ExternalLink } from "lucide-react";
 import { logout } from "@/app/admin/actions";
 import { cn } from "@/lib/utils";
 
@@ -12,6 +12,7 @@ const NAV = [
   { href: "/admin/trabajos", label: "Trabajos entregados", icon: Hammer },
   { href: "/admin/catalogo", label: "Catálogo", icon: Package },
   { href: "/admin/consultas", label: "Consultas", icon: Inbox },
+  { href: "/admin/postulaciones", label: "Postulaciones", icon: Briefcase },
   { href: "/admin/ajustes", label: "Ajustes del sitio", icon: Settings },
 ];
 

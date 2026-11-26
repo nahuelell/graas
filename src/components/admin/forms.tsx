@@ -183,6 +183,9 @@ export function SettingsForm({ settings }: { settings: Settings | null }) {
               <Field label="WhatsApp" hint="Con 549 + característica. Ej: 5493434157700"><input name="whatsapp" defaultValue={s?.whatsapp ?? ""} className={inputCls} /></Field>
             </div>
             <Field label="Email"><input name="email" type="email" defaultValue={s?.email ?? ""} className={inputCls} /></Field>
+            <Field label="Email que recibe los avisos" hint="A este correo llegan las consultas y las postulaciones con CV. Podés poner varios separados por coma.">
+              <input name="notify_email" type="text" inputMode="email" placeholder="ejemplo@gmail.com" defaultValue={s?.notify_email ?? ""} className={inputCls} />
+            </Field>
             <div className="grid gap-4 sm:grid-cols-2">
               <Field label="Dirección"><input name="address" defaultValue={s?.address ?? ""} className={inputCls} /></Field>
               <Field label="Ciudad"><input name="city" defaultValue={s?.city ?? ""} className={inputCls} /></Field>

@@ -29,6 +29,7 @@ export default async function PrivacidadPage() {
           <h2>Qué datos recogemos</h2>
           <ul>
             <li>Los que completás en el formulario de contacto: nombre, teléfono, email, el tipo de consulta y tu mensaje.</li>
+            <li>Los que enviás en «Trabajá con nosotros»: nombre, localidad, teléfono, email, área de interés, tu mensaje y tu currículum.</li>
             <li>Datos técnicos de navegación (por ejemplo, páginas visitadas), solo si está activa la medición de visitas.</li>
           </ul>
         </section>
@@ -36,6 +37,7 @@ export default async function PrivacidadPage() {
           <h2>Para qué los usamos</h2>
           <p>
             Usamos tus datos únicamente para responder tu consulta, enviarte presupuestos y hacer el seguimiento comercial que pediste.
+            Los currículums se usan solo para procesos de selección de personal de la empresa y se guardan con acceso restringido.
             No los vendemos ni los cedemos a terceros con fines publicitarios.
           </p>
         </section>

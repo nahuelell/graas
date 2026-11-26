@@ -12,6 +12,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: abs("/termicos"), changeFrequency: "monthly", priority: 0.9 },
     { url: abs("/usados"), changeFrequency: "daily", priority: 0.8 },
     { url: abs("/trabajos"), changeFrequency: "weekly", priority: 0.6 },
+    { url: abs("/trabaja-con-nosotros"), changeFrequency: "monthly", priority: 0.4 },
     { url: abs("/terminos"), changeFrequency: "yearly", priority: 0.1 },
     { url: abs("/privacidad"), changeFrequency: "yearly", priority: 0.1 },
     ...products.map((p) => ({

@@ -8,7 +8,7 @@ import { sendContact, type ContactState } from "@/app/(site)/actions";
 import { CATEGORIES } from "@/lib/catalog";
 
 const field =
-  "w-full border-0 border-b border-rule bg-transparent px-0 py-3 text-base text-char placeholder:text-steel/60 outline-none transition-colors focus:border-char focus:ring-0";
+  "w-full border-0 border-b border-rule bg-transparent px-0 py-3 text-base text-char placeholder:text-steel/60 outline-none transition-colors focus:border-brand focus:ring-0 [&>option]:bg-paper [&>option]:text-char";
 
 export function ContactForm({ defaultInterest = "", source = "home" }: { defaultInterest?: string; source?: string }) {
   const [state, action, pending] = useActionState<ContactState, FormData>(sendContact, null);
